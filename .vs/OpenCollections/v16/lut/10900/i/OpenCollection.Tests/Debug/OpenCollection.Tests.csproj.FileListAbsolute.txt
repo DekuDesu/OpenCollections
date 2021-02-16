@@ -1,0 +1,11 @@
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\b\OpenCollection.Tests\bin\Debug\xunit.runner.visualstudio.testadapter.dll
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\b\OpenCollection.Tests\bin\Debug\xunit.runner.reporters.net452.dll
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\b\OpenCollection.Tests\bin\Debug\xunit.runner.utility.net452.dll
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\b\OpenCollection.Tests\bin\Debug\xunit.abstractions.dll
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\b\OpenCollection.Tests\bin\Debug\OpenCollection.Tests.dll
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\b\OpenCollection.Tests\bin\Debug\OpenCollection.Tests.pdb
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\i\OpenCollection.Tests\Debug\OpenCollection.Tests.csprojAssemblyReference.cache
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\i\OpenCollection.Tests\Debug\OpenCollection.Tests.csproj.CoreCompileInputs.cache
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\i\OpenCollection.Tests\Debug\OpenCollection.Tests.csproj.CopyComplete
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\i\OpenCollection.Tests\Debug\OpenCollection.Tests.dll
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\i\OpenCollection.Tests\Debug\OpenCollection.Tests.pdb

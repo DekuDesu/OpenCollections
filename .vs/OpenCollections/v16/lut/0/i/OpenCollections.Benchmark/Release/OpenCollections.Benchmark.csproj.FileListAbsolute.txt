@@ -1,0 +1,16 @@
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\b\OpenCollections.Benchmark\bin\Release\x86\KernelTraceControl.dll
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\b\OpenCollections.Benchmark\bin\Release\x86\KernelTraceControl.Win61.dll
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\b\OpenCollections.Benchmark\bin\Release\x86\msdia140.dll
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\b\OpenCollections.Benchmark\bin\Release\amd64\KernelTraceControl.dll
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\b\OpenCollections.Benchmark\bin\Release\amd64\msdia140.dll
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\b\OpenCollections.Benchmark\bin\Release\TraceReloggerLib.dll
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\b\OpenCollections.Benchmark\bin\Release\Dia2Lib.dll
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\b\OpenCollections.Benchmark\bin\Release\OSExtensions.dll
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\b\OpenCollections.Benchmark\bin\Release\OpenCollections.Benchmark.exe.config
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\b\OpenCollections.Benchmark\bin\Release\OpenCollections.Benchmark.exe
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\b\OpenCollections.Benchmark\bin\Release\OpenCollections.Benchmark.pdb
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\i\OpenCollections.Benchmark\Release\OpenCollections.Benchmark.exe.config
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\i\OpenCollections.Benchmark\Release\OpenCollections.Benchmark.csproj.CoreCompileInputs.cache
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\i\OpenCollections.Benchmark\Release\OpenCollections.Benchmark.csproj.CopyComplete
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\i\OpenCollections.Benchmark\Release\OpenCollections.Benchmark.exe
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\i\OpenCollections.Benchmark\Release\OpenCollections.Benchmark.pdb
