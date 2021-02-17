@@ -112,7 +112,7 @@ namespace OpenCollections
         private bool TryProduceItem(IEnumerator<T> Enumerator)
         {
             T item;
-            if ((item = Enumerator.Current) != null)
+            if (Equals(item = Enumerator.Current, default) == false)
             {
                 if (ResultCollection.TryAdd(item) == false)
                 {
