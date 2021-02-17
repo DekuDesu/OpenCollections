@@ -67,8 +67,7 @@ namespace OpenCollections
 
         public static IConcurrentConsumer<T, TResult> CreateConsumer<T, TResult>()
         {
-            var consumer = new ConcurrentConsumer<T, TResult>();
-            return consumer;
+            return new ConcurrentConsumer<T, TResult>();
         }
 
         public static IConcurrentConsumer<T, TResult> CreateConsumer<T, TResult>(IProducerConsumerCollection<T> InputCollection, IProducerConsumerCollection<TResult> OutputCollection)
