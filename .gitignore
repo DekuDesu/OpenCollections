@@ -1,7 +1,6 @@
-.vs/
-TestResults/
-bin/
-obj/
-packages/
-properties/
-.vs/
+.vs/*
+TestResults/*
+bin/*
+obj/*
+packages/*
+.vs/OpenCollections/v16/.suo
