@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Runtime.CompilerServices;
-
-[assembly: InternalsVisibleTo("OpenCollection.Tests")]
 
 namespace OpenCollections
 {

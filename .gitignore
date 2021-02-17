@@ -4,3 +4,10 @@ bin/*
 obj/*
 packages/*
 .vs/OpenCollections/v16/.suo
+*.nupkg
+*.nuspec
+.vs/OpenCollections/v16/.suo
+*.pdb
+*.dll
+*.cache
+*.pdb
