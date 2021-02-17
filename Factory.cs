@@ -72,7 +72,7 @@ namespace OpenCollections
 
         public static IConcurrentConsumer<T, TResult> CreateConsumer<T, TResult>(IProducerConsumerCollection<T> InputCollection, IProducerConsumerCollection<TResult> OutputCollection)
         {
-            return new ConcurrentConsumer<T, TResult>()
+            return new ConcurrentConsumer<T, TResult>
             {
                 Collection = InputCollection,
                 ResultCollection = OutputCollection
@@ -81,7 +81,7 @@ namespace OpenCollections
 
         public static IConcurrentConsumer<T, TResult> CreateConsumer<T, TResult>(IProducerConsumerCollection<TResult> OutputCollection)
         {
-            return new ConcurrentConsumer<T, TResult>()
+            return new ConcurrentConsumer<T, TResult>
             {
                 ResultCollection = OutputCollection
             };
@@ -89,7 +89,7 @@ namespace OpenCollections
 
         public static IConcurrentConsumer<T, TResult> CreateConsumer<T, TResult>(IProducerConsumerCollection<T> InputCollection)
         {
-            return new ConcurrentConsumer<T, TResult>()
+            return new ConcurrentConsumer<T, TResult>
             {
                 Collection = InputCollection
             };
