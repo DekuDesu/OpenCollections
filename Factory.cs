@@ -95,6 +95,47 @@ namespace OpenCollections
             };
         }
 
+        public static IConcurrentMultiConsumer<T, TResult> CreateMultiConsumer<T, TResult>()
+        {
+            return new MultiConcurrentConsumer<T, TResult>();
+        }
+
+        public static IConcurrentMultiConsumer<T, TResult> CreateMultiConsumer<T, TResult>(params IConcurrentOutput<T>[] ObjectsToConsumeFrom)
+        {
+            if (ObjectsToConsumeFrom.Length == 0)
+            {
+                return CreateMultiConsumer<T, TResult>();
+            }
+            if (ObjectsToConsumeFrom.Length > 1)
+            {
+                List<IProducerConsumerCollection<T>> collections = new List<IProducerConsumerCollection<T>>();
+                var multiConsumer = new MultiConcurrentConsumer<T, TResult>()
+                {
+                    Collections = collections
+                };
+                foreach (var item in ObjectsToConsumeFrom)
+                {
+                    multiConsumer.Started += item.Invoke;
+                    multiConsumer.Finished += item.Invoke;
+                    multiConsumer.CollectionChanged += item.Invoke;
+                    collections.Add(item.ResultCollection);
+                }
+                return multiConsumer;
+            }
+            else
+            {
+                var multiConsumer = new MultiConcurrentConsumer<T, TResult>()
+                {
+                    Collections = { ObjectsToConsumeFrom[0].ResultCollection },
+                };
+                multiConsumer.Started += ObjectsToConsumeFrom[0].Invoke;
+                multiConsumer.Finished += ObjectsToConsumeFrom[0].Invoke;
+                multiConsumer.CollectionChanged += ObjectsToConsumeFrom[0].Invoke;
+                return multiConsumer;
+            }
+
+        }
+
         public static class Messages
         {
             public static string ManagedTokenError()
