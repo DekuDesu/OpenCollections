@@ -1,2 +1,5 @@
-C:\$Programming\C# Projects\OpenCollections\obj\Release\OpenCollections.csprojAssemblyReference.cache
+C:\$Programming\C# Projects\OpenCollections\bin\Release\OpenCollections.dll
+C:\$Programming\C# Projects\OpenCollections\bin\Release\OpenCollections.pdb
 C:\$Programming\C# Projects\OpenCollections\obj\Release\OpenCollections.csproj.CoreCompileInputs.cache
+C:\$Programming\C# Projects\OpenCollections\obj\Release\OpenCollections.dll
+C:\$Programming\C# Projects\OpenCollections\obj\Release\OpenCollections.pdb
