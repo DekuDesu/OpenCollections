@@ -29,27 +29,82 @@ namespace OpenCollections
         public event Action Started;
 
         public IProducerConsumerCollection<T> Collection { get; set; } = new ConcurrentQueue<T>();
+        public void Invoke() => WriteLines();
 
-        public async Task WriteLinesAsync(bool append = true, CancellationToken token = default)
+        public async Task InvokeAsync() => await WriteLinesAsync().ConfigureAwait(false);
+
+        public async Task WriteLinesAsync()
         {
-            SetManagedToken(token);
+            SetManagedToken();
 
-            await Task.Run(() => WriteLines(append), token);
+            await Task.Run(() => WriteLines(), TokenSource.Token).ConfigureAwait(false);
         }
 
-        public async Task WriteAsync(bool append = true, CancellationToken token = default)
+        public async Task WriteLinesAsync(bool append)
         {
-            SetManagedToken(token);
+            SetManagedToken();
 
-            await Task.Run(() => Write(append), token);
+            await Task.Run(() => WriteLines(append), TokenSource.Token).ConfigureAwait(false);
         }
 
-        public void WriteLines(bool append = true)
+        public async Task WriteLinesAsync(CancellationToken token)
         {
-            ConsumeLinesAndWrite(append, writeLines: true);
+            token = SetManagedToken(token);
+
+            await Task.Run(() => WriteLines(), token).ConfigureAwait(false);
         }
 
-        public void Write(bool append = true)
+        public async Task WriteLinesAsync(bool append, CancellationToken token)
+        {
+            token = SetManagedToken(token);
+
+            await Task.Run(() => WriteLines(append), token).ConfigureAwait(false);
+        }
+
+        public async Task WriteAsync()
+        {
+            SetManagedToken();
+
+            await Task.Run(() => Write(), TokenSource.Token).ConfigureAwait(false);
+        }
+
+        public async Task WriteAsync(bool append)
+        {
+            SetManagedToken();
+
+            await Task.Run(() => Write(append), TokenSource.Token).ConfigureAwait(false);
+        }
+
+        public async Task WriteAsync(CancellationToken token)
+        {
+            token = SetManagedToken(token);
+
+            await Task.Run(() => Write(), token).ConfigureAwait(false);
+        }
+
+        public async Task WriteAsync(bool append, CancellationToken token)
+        {
+            token = SetManagedToken(token);
+
+            await Task.Run(() => Write(append), token).ConfigureAwait(false);
+        }
+
+        public void WriteLines()
+        {
+            ConsumeLinesAndWrite();
+        }
+
+        public void WriteLines(bool append)
+        {
+            ConsumeLinesAndWrite(append);
+        }
+
+        public void Write()
+        {
+            ConsumeLinesAndWrite(writeLines: false);
+        }
+
+        public void Write(bool append)
         {
             ConsumeLinesAndWrite(append, writeLines: false);
         }
@@ -107,7 +162,7 @@ namespace OpenCollections
             }
         }
 
-        private CancellationToken SetManagedToken(CancellationToken token)
+        private CancellationToken SetManagedToken(CancellationToken token = default)
         {
             if (token != default)
             {
@@ -118,7 +173,6 @@ namespace OpenCollections
                 TokenSource = new CancellationTokenSource();
                 token = TokenSource.Token;
             }
-
             return token;
         }
 
@@ -137,10 +191,6 @@ namespace OpenCollections
             ((IDisposable)Writer).Dispose();
             ((IDisposable)TokenSource).Dispose();
         }
-
-        public void Invoke() => WriteLines(true);
-
-        public async Task InvokeAsync() => await WriteLinesAsync(true);
 
         ~ConcurrentWriter()
         {

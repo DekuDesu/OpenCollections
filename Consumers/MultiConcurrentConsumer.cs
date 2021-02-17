@@ -53,7 +53,7 @@ namespace OpenCollections
 
         public void Invoke() => Consume();
 
-        public async Task InvokeAsync() => await ConsumeAsync();
+        public async Task InvokeAsync() => await ConsumeAsync().ConfigureAwait(false);
 
         /// <summary>
         /// Automatically hooks into the given producer/consumer and consumes items whenever items are produced by the other object
@@ -109,7 +109,21 @@ namespace OpenCollections
             Finished?.Invoke();
         }
 
-        public async Task ConsumeAsync(CancellationToken token = default)
+        public async Task ConsumeAsync()
+        {
+            SetManagedToken();
+
+            await Task.Run(Consume, TokenSource.Token).ConfigureAwait(false);
+        }
+
+        public async Task ConsumeAsync(CancellationToken token)
+        {
+            token = SetManagedToken(token);
+
+            await Task.Run(Consume, token).ConfigureAwait(false);
+        }
+
+        private CancellationToken SetManagedToken(CancellationToken token = default)
         {
             if (token != default)
             {
@@ -120,8 +134,7 @@ namespace OpenCollections
                 TokenSource = new CancellationTokenSource();
                 token = TokenSource.Token;
             }
-
-            await Task.Run(Consume, token);
+            return token;
         }
 
         public void Dispose()

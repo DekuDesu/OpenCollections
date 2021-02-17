@@ -48,13 +48,8 @@ namespace OpenCollections
 
         private CancellationToken ManagedToken;
 
-        public ConcurrentConsumer()
-        {
-        }
-
-
         public void Invoke() => Consume();
-        public async Task InvokeAsync() => await ConsumeAsync();
+        public async Task InvokeAsync() => await ConsumeAsync().ConfigureAwait(false);
 
         public void Consume()
         {
@@ -74,7 +69,27 @@ namespace OpenCollections
             Finished?.Invoke();
         }
 
-        public async Task ConsumeAsync(CancellationToken token = default)
+        public async Task ConsumeAsync()
+        {
+            SetManagedToken();
+
+            await Task.Run(() =>
+            {
+                Consume();
+            }, TokenSource.Token).ConfigureAwait(false);
+        }
+
+        public async Task ConsumeAsync(CancellationToken token)
+        {
+            token = SetManagedToken(token);
+
+            await Task.Run(() =>
+            {
+                Consume();
+            }, token).ConfigureAwait(false);
+        }
+
+        private CancellationToken SetManagedToken(CancellationToken token = default)
         {
             if (token != default)
             {
@@ -85,11 +100,7 @@ namespace OpenCollections
                 TokenSource = new CancellationTokenSource();
                 token = TokenSource.Token;
             }
-
-            await Task.Run(() =>
-            {
-                Consume();
-            }, token);
+            return token;
         }
 
         public void Cancel()

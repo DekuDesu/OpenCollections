@@ -70,7 +70,7 @@ namespace OpenCollections.Helpers
             while (InCollection.Count() > 0)
             {
                 // If the buffer has items we should attempt to add them first to keep FIFO standard
-                TryEmptyBuffer(BufferCollection, OutCollection, returnOnFail: true);
+                TryEmptyBuffer(BufferCollection, OutCollection);
 
                 // Attempt to consume the items from the collection
                 if (TryConsumeItem(InCollection, OutCollection, BufferCollection, Operation))

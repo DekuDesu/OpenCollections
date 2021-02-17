@@ -29,7 +29,12 @@ namespace OpenCollections
         /// <summary>
         /// Begins the asynchronous consumption of items from <see cref="Collection"/>, runs <see cref="Operation"/> on the item, and adds the <see cref="TResult"/> to <see cref="ResultCollection"/>
         /// </summary>
-        Task ConsumeAsync(CancellationToken token = default);
+        Task ConsumeAsync(CancellationToken token);
+
+        /// <summary>
+        /// Begins the asynchronous consumption of items from <see cref="Collection"/>, runs <see cref="Operation"/> on the item, and adds the <see cref="TResult"/> to <see cref="ResultCollection"/>
+        /// </summary>
+        Task ConsumeAsync();
 
         /// <summary>
         /// Cancels the consumption of items and any associated background tasks.

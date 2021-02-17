@@ -48,12 +48,6 @@ namespace OpenCollections
         }
 
         // /////////////////////// CONSUMER
-        public static IConcurrentConsumer<T, TResult> CreateConsumer<T, TResult>()
-        {
-            return new ConcurrentConsumer<T, TResult>();
-        }
-
-
         public static IConcurrentConsumer<T, TResult> CreateConsumer<T, TResult>(IConcurrentOutput<T> ObjectToConsumeFrom)
         {
             var consumer = new ConcurrentConsumer<T, TResult>();
@@ -71,17 +65,37 @@ namespace OpenCollections
             return consumer;
         }
 
-        public static IConcurrentConsumer<T, TResult> CreateConsumer<T, TResult>(IProducerConsumerCollection<T> InputCollection = default, IProducerConsumerCollection<TResult> OutputCollection = default)
+        public static IConcurrentConsumer<T, TResult> CreateConsumer<T, TResult>()
         {
             var consumer = new ConcurrentConsumer<T, TResult>();
-            if (InputCollection != default)
+            return consumer;
+        }
+
+        public static IConcurrentConsumer<T, TResult> CreateConsumer<T, TResult>(IProducerConsumerCollection<T> InputCollection, IProducerConsumerCollection<TResult> OutputCollection)
+        {
+            var consumer = new ConcurrentConsumer<T, TResult>()
             {
-                consumer.Collection = InputCollection;
-            }
-            if (OutputCollection != default)
+                Collection = InputCollection,
+                ResultCollection = OutputCollection
+            };
+            return consumer;
+        }
+
+        public static IConcurrentConsumer<T, TResult> CreateConsumer<T, TResult>(IProducerConsumerCollection<TResult> OutputCollection)
+        {
+            var consumer = new ConcurrentConsumer<T, TResult>()
             {
-                consumer.ResultCollection = OutputCollection;
-            }
+                ResultCollection = OutputCollection
+            };
+            return consumer;
+        }
+
+        public static IConcurrentConsumer<T, TResult> CreateConsumer<T, TResult>(IProducerConsumerCollection<T> InputCollection)
+        {
+            var consumer = new ConcurrentConsumer<T, TResult>()
+            {
+                Collection = InputCollection
+            };
             return consumer;
         }
 

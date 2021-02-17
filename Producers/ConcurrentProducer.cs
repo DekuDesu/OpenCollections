@@ -62,18 +62,18 @@ namespace OpenCollections
 
         public void Produce() => ProduceItems();
 
-        public async Task ProduceAsync(CancellationToken token = default)
+        public async Task ProduceAsync()
         {
-            if (token != default)
-            {
-                ManagedToken = token;
-            }
-            else
-            {
-                TokenSource = new CancellationTokenSource();
-                token = TokenSource.Token;
-            }
-            await Task.Run(() => ProduceItems(token), token);
+            SetManagedToken();
+
+            await Task.Run(() => ProduceItems(TokenSource.Token), TokenSource.Token).ConfigureAwait(false);
+        }
+
+        public async Task ProduceAsync(CancellationToken token)
+        {
+            token = SetManagedToken(token);
+
+            await Task.Run(() => ProduceItems(token), token).ConfigureAwait(false);
         }
 
         private void ProduceItems(CancellationToken token = default)
@@ -123,6 +123,20 @@ namespace OpenCollections
             return false;
         }
 
+        private CancellationToken SetManagedToken(CancellationToken token = default)
+        {
+            if (token != default)
+            {
+                ManagedToken = token;
+            }
+            else
+            {
+                TokenSource = new CancellationTokenSource();
+                token = TokenSource.Token;
+            }
+            return token;
+        }
+
         public void Cancel()
         {
             if (ManagedToken != default)
@@ -139,6 +153,6 @@ namespace OpenCollections
 
         public void Invoke() => Produce();
 
-        public async Task InvokeAsync() => await ProduceAsync();
+        public async Task InvokeAsync() => await ProduceAsync().ConfigureAwait(false);
     }
 }

@@ -14,7 +14,12 @@ namespace OpenCollections
         /// <summary>
         /// Begin producing items asynchronously by iterating <see cref="Enumerable"/> and adding the results from each iteration to <see cref="ResultCollection"/> from a background thread. Use Cancel() to cancel the background thread
         /// </summary>
-        Task ProduceAsync(CancellationToken token = default);
+        Task ProduceAsync(CancellationToken token);
+
+        /// <summary>
+        /// Begin producing items asynchronously by iterating <see cref="Enumerable"/> and adding the results from each iteration to <see cref="ResultCollection"/> from a background thread. Use Cancel() to cancel the background thread
+        /// </summary>
+        Task ProduceAsync();
 
         void Cancel();
     }
