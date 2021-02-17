@@ -1,6 +1,7 @@
-/.vs/
-/TestResults/
-/bin/
-/obj/
-/packages/
-/properties/
+.vs/
+TestResults/
+bin/
+obj/
+packages/
+properties/
+.vs/

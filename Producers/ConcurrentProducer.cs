@@ -111,8 +111,9 @@ namespace OpenCollections
 
         private bool TryProduceItem(IEnumerator<T> Enumerator)
         {
-            T item;
-            if (Equals(item = Enumerator.Current, default) == false)
+            T item = Enumerator.Current;
+
+            if (Equals(item, default) == false)
             {
                 if (ResultCollection.TryAdd(item) == false)
                 {
@@ -120,6 +121,7 @@ namespace OpenCollections
                 }
                 return true;
             }
+
             return false;
         }
 
