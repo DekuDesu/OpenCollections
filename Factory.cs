@@ -72,30 +72,27 @@ namespace OpenCollections
 
         public static IConcurrentConsumer<T, TResult> CreateConsumer<T, TResult>(IProducerConsumerCollection<T> InputCollection, IProducerConsumerCollection<TResult> OutputCollection)
         {
-            var consumer = new ConcurrentConsumer<T, TResult>()
+            return new ConcurrentConsumer<T, TResult>()
             {
                 Collection = InputCollection,
                 ResultCollection = OutputCollection
             };
-            return consumer;
         }
 
         public static IConcurrentConsumer<T, TResult> CreateConsumer<T, TResult>(IProducerConsumerCollection<TResult> OutputCollection)
         {
-            var consumer = new ConcurrentConsumer<T, TResult>()
+            return new ConcurrentConsumer<T, TResult>()
             {
                 ResultCollection = OutputCollection
             };
-            return consumer;
         }
 
         public static IConcurrentConsumer<T, TResult> CreateConsumer<T, TResult>(IProducerConsumerCollection<T> InputCollection)
         {
-            var consumer = new ConcurrentConsumer<T, TResult>()
+            return new ConcurrentConsumer<T, TResult>()
             {
                 Collection = InputCollection
             };
-            return consumer;
         }
 
         public static class Messages
