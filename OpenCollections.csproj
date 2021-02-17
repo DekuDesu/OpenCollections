@@ -68,5 +68,6 @@
   <ItemGroup>
     <None Include=".travis.yml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

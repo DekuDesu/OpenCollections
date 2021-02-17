@@ -1,0 +1,2 @@
+C:\$Programming\C# Projects\OpenCollections\obj\Release\OpenCollections.csprojAssemblyReference.cache
+C:\$Programming\C# Projects\OpenCollections\obj\Release\OpenCollections.csproj.CoreCompileInputs.cache
