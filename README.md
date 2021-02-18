@@ -15,6 +15,9 @@
 </p>
 
 ## Table of Contents
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/bac44be919bc4def9966c542c02c7a7c)](https://app.codacy.com/gh/DekuDesu/OpenCollections?utm_source=github.com&utm_medium=referral&utm_content=DekuDesu/OpenCollections&utm_campaign=Badge_Grade)
+
 * [Installation](#installation)
 * [Documentation](#usage)
 	* [Setup](#setup)
