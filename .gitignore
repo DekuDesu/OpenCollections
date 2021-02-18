@@ -9,3 +9,4 @@ TestResults\*
 bin\*
 .vs\*
 packages\*
+obj\*
