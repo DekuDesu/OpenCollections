@@ -25,7 +25,7 @@ namespace OpenCollections
         /// </summary>
         public IProducerConsumerCollection<TResult> ResultCollection { get; set; } = new ConcurrentQueue<TResult>();
 
-        public Func<T, TResult> Operation { get; set; } = (T input) => throw new NotImplementedException($"No Func<{typeof(T)},{typeof(TResult)}> assigned to {nameof(ConcurrentConsumer<T, TResult>)}.{nameof(Operation)}");
+        public Func<T, TResult> Operation { get; set; }
 
         internal List<TResult> Buffer = new List<TResult>();
 
@@ -49,13 +49,19 @@ namespace OpenCollections
         private CancellationToken ManagedToken;
 
         public void Invoke() => Consume();
+
         public async Task InvokeAsync() => await ConsumeAsync().ConfigureAwait(false);
 
         public void Consume()
         {
-            if (Collection == null)
+            if (Collection is null)
             {
                 throw new ArgumentNullException($"You must assign a value to {nameof(ConcurrentConsumer<T, TResult>)}.{nameof(Collection)} before attempting to consume items.");
+            }
+
+            if (Operation is null)
+            {
+                throw new NotImplementedException($"No Func<{typeof(T)},{typeof(TResult)}> assigned to {nameof(ConcurrentConsumer<T, TResult>)}.{nameof(Operation)}");
             }
 
             Consuming = true;

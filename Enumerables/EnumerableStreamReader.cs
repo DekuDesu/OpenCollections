@@ -21,7 +21,7 @@ namespace OpenCollections
         /// Instantiates a basic wrapper for a default <see cref="StreamReader"/> that acts as a <see cref="IEnumerable{string}"/>, that can be used seamlessly with other <see cref="OpenCollections"/> pipeline objects
         /// </summary>
         /// <param name="path"></param>
-        public EnumerableStreamReader(string path)
+        public EnumerableStreamReader(in string path)
         {
             Path = path;
         }

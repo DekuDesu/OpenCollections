@@ -1,2 +1,7 @@
 ﻿language: csharp
 solution: OpenCollections.sln
+before_script:
+  - bash <(curl -Ls https://coverage.codacy.com/get.sh) download
+
+after_success:
+  - bash <(curl -Ls https://coverage.codacy.com/get.sh)

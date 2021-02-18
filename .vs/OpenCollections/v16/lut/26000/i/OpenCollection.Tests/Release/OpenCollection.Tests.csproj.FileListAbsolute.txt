@@ -1,0 +1,8 @@
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\b\OpenCollection.Tests\bin\Release\xunit.runner.visualstudio.testadapter.dll
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\b\OpenCollection.Tests\bin\Release\xunit.runner.reporters.net452.dll
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\b\OpenCollection.Tests\bin\Release\xunit.runner.utility.net452.dll
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\b\OpenCollection.Tests\bin\Release\xunit.abstractions.dll
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\b\OpenCollection.Tests\bin\Release\OpenCollection.Tests.dll
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\i\OpenCollection.Tests\Release\OpenCollection.Tests.csproj.CoreCompileInputs.cache
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\i\OpenCollection.Tests\Release\OpenCollection.Tests.csproj.CopyComplete
+C:\$Programming\C# Projects\OpenCollections\.vs\OpenCollections\v16\lut\0\i\OpenCollection.Tests\Release\OpenCollection.Tests.dll
