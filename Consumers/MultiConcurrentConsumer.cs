@@ -35,7 +35,7 @@ namespace OpenCollections
         /// </summary>
         public IProducerConsumerCollection<TResult> ResultCollection { get; set; } = new ConcurrentBag<TResult>();
 
-        public Func<T, TResult> Operation { get; set; } = (T input) => throw new NotImplementedException($"No Func<{typeof(T)},{typeof(TResult)}> assigned to {nameof(MultiConcurrentConsumer<T, TResult>)}.{nameof(Operation)}");
+        public Func<T, TResult> Operation { get; set; }
 
         /// <summary>
         /// The buffer where items are stored while the <see cref="ResultCollection"/> is busy
@@ -90,6 +90,11 @@ namespace OpenCollections
 
         public void Consume()
         {
+            if (Operation is null)
+            {
+                throw new NotImplementedException($"No Func<{typeof(T)},{typeof(TResult)}> assigned to {nameof(MultiConcurrentConsumer<T, TResult>)}.{nameof(Operation)}");
+            }
+
             if (Consuming)
             {
                 return;
