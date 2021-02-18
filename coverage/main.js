@@ -226,13 +226,13 @@ var assemblies = [
     "classes": [
       { "name": "OpenCollections.ConcurrentConsumer`2", "rp": "OpenCollections_ConcurrentConsumer_2.html", "cl": 49, "ucl": 4, "cal": 53, "tl": 127, "ct": "LineCoverage", "mc": "-", "cb": 14, "tb": 18, "lch": [], "bch": [], "hc": [] },
       { "name": "OpenCollections.ConcurrentProducer`1", "rp": "OpenCollections_ConcurrentProducer_1.html", "cl": 59, "ucl": 15, "cal": 74, "tl": 160, "ct": "LineCoverage", "mc": "-", "cb": 17, "tb": 26, "lch": [], "bch": [], "hc": [] },
-      { "name": "OpenCollections.ConcurrentWriter`1", "rp": "OpenCollections_ConcurrentWriter_1.html", "cl": 81, "ucl": 28, "cal": 109, "tl": 200, "ct": "LineCoverage", "mc": "-", "cb": 27, "tb": 52, "lch": [], "bch": [], "hc": [] },
-      { "name": "OpenCollections.EnumerableMultiReader", "rp": "OpenCollections_EnumerableMultiReader.html", "cl": 27, "ucl": 4, "cal": 31, "tl": 75, "ct": "LineCoverage", "mc": "-", "cb": 3, "tb": 4, "lch": [], "bch": [], "hc": [] },
+      { "name": "OpenCollections.ConcurrentWriter`1", "rp": "OpenCollections_ConcurrentWriter_1.html", "cl": 81, "ucl": 34, "cal": 115, "tl": 200, "ct": "LineCoverage", "mc": "-", "cb": 27, "tb": 52, "lch": [], "bch": [], "hc": [] },
+      { "name": "OpenCollections.EnumerableMultiReader", "rp": "OpenCollections_EnumerableMultiReader.html", "cl": 27, "ucl": 4, "cal": 31, "tl": 75, "ct": "LineCoverage", "mc": "-", "cb": 5, "tb": 6, "lch": [], "bch": [], "hc": [] },
       { "name": "OpenCollections.EnumerableStreamReader", "rp": "OpenCollections_EnumerableStreamReader.html", "cl": 18, "ucl": 4, "cal": 22, "tl": 65, "ct": "LineCoverage", "mc": "-", "cb": 4, "tb": 4, "lch": [], "bch": [], "hc": [] },
       { "name": "OpenCollections.Extensions", "rp": "OpenCollections_Extensions.html", "cl": 25, "ucl": 0, "cal": 25, "tl": 76, "ct": "LineCoverage", "mc": "-", "cb": 0, "tb": 0, "lch": [], "bch": [], "hc": [] },
-      { "name": "OpenCollections.Factory", "rp": "OpenCollections_Factory.html", "cl": 73, "ucl": 27, "cal": 100, "tl": 153, "ct": "LineCoverage", "mc": "-", "cb": 5, "tb": 8, "lch": [], "bch": [], "hc": [] },
+      { "name": "OpenCollections.Factory", "rp": "OpenCollections_Factory.html", "cl": 73, "ucl": 27, "cal": 100, "tl": 153, "ct": "LineCoverage", "mc": "-", "cb": 7, "tb": 10, "lch": [], "bch": [], "hc": [] },
       { "name": "OpenCollections.Helpers.Consumer", "rp": "OpenCollections_Consumer.html", "cl": 37, "ucl": 0, "cal": 37, "tl": 115, "ct": "LineCoverage", "mc": "-", "cb": 16, "tb": 16, "lch": [], "bch": [], "hc": [] },
-      { "name": "OpenCollections.MultiConcurrentConsumer`2", "rp": "OpenCollections_MultiConcurrentConsumer_2.html", "cl": 43, "ucl": 25, "cal": 68, "tl": 146, "ct": "LineCoverage", "mc": "-", "cb": 10, "tb": 18, "lch": [], "bch": [], "hc": [] },
+      { "name": "OpenCollections.MultiConcurrentConsumer`2", "rp": "OpenCollections_MultiConcurrentConsumer_2.html", "cl": 43, "ucl": 25, "cal": 68, "tl": 146, "ct": "LineCoverage", "mc": "-", "cb": 12, "tb": 22, "lch": [], "bch": [], "hc": [] },
     ]},
 ];
 
@@ -256,7 +256,7 @@ var riskHotspots = [
     "assembly": "OpenCollections", "class": "OpenCollections.MultiConcurrentConsumer`2", "reportPath": "OpenCollections_MultiConcurrentConsumer_2.html", "methodName": "System.Void OpenCollections.MultiConcurrentConsumer`2::.ctor(System.Collections.Generic.IEnumerable`1<OpenCollections.IConcurrentOutput`1<T>>)", "methodShortName": ".ctor(...)", "fileIndex": 0, "line": 31,
     "metrics": [
       { "value": 4, "exceeded": false },
-      { "value": 2, "exceeded": false },
+      { "value": 4, "exceeded": false },
       { "value": 20, "exceeded": true },
     ]},
 ];
