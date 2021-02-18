@@ -1,4 +1,12 @@
-*codacy
+*codacy*
 *.psd
 *.bat
-results.xml
+coverage/
+*.htm
+Perfolizer.0.2.1/
+TestResults/*
+bin/
+.vs/
+packages/
+obj/
+.jar
