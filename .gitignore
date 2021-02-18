@@ -1,3 +1,8 @@
-
+codacy
 *.psd
 *.bat
+coverage
+*.htm
+results.xml
+Perfolizer.0.2.1\
+TestResults\
