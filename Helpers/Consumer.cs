@@ -48,7 +48,7 @@ namespace OpenCollections.Helpers
             // attempt to add the items from the buffer, if it fails continue consuming items
             while (Buffer.Count > 0)
             {
-                if (Consumer.TryAddBufferItem(Buffer, ResultCollection) == false && returnOnFail)
+                if (TryAddBufferItem(Buffer, ResultCollection) == false && returnOnFail)
                 {
                     return;
                 }
@@ -64,7 +64,7 @@ namespace OpenCollections.Helpers
         /// <param name="OutCollection"></param>
         /// <param name="BufferCollection"></param>
         /// <param name="Operation"></param>
-        internal static void ConsumeItems<T, TResult>(IProducerConsumerCollection<T> InCollection, IProducerConsumerCollection<TResult> OutCollection, IList<TResult> BufferCollection, in Func<T, TResult> Operation, Action CollectionChanged)
+        internal static void ConsumeItems<T, TResult>(IProducerConsumerCollection<T> InCollection, IProducerConsumerCollection<TResult> OutCollection, IList<TResult> BufferCollection, in Func<T, TResult> Operation, in Action CollectionChanged)
         {
             // attempt to consume items until there are no more items to consume
             while (InCollection.Count() > 0)

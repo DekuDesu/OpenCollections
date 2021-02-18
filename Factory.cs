@@ -36,7 +36,7 @@ namespace OpenCollections
             return new EnumerableMultiReader(FilePaths);
         }
 
-        public static IEnumerableReader<string> CreateReader(string FilePath)
+        public static IEnumerableReader<string> CreateReader(in string FilePath)
         {
             return new EnumerableStreamReader(FilePath);
         }
@@ -56,12 +56,18 @@ namespace OpenCollections
             return consumer;
         }
 
-        public static IConcurrentConsumer<T, TResult> CreateConsumer<T, TResult>(IConcurrentOutput<T> ObjectToConsumeFrom, IConcurrentInput<TResult> ObjectToOutputTo)
+        public static IConcurrentConsumer<T, TResult> CreateConsumer<T, TResult>(IConcurrentOutput<T> ObjectToConsumeFrom = default, IConcurrentInput<TResult> ObjectToOutputTo = default)
         {
             var consumer = new ConcurrentConsumer<T, TResult>();
-            consumer.InputFrom(ObjectToConsumeFrom);
-            consumer.OutputTo(ObjectToOutputTo);
-            consumer.ObserveCollection(ObjectToConsumeFrom);
+            if (ObjectToConsumeFrom != default)
+            {
+                consumer.InputFrom(ObjectToConsumeFrom);
+                consumer.ObserveCollection(ObjectToConsumeFrom);
+            }
+            if (ObjectToOutputTo != default)
+            {
+                consumer.OutputTo(ObjectToOutputTo);
+            }
             return consumer;
         }
 

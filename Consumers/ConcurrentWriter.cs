@@ -182,14 +182,14 @@ namespace OpenCollections
             {
                 throw new NotSupportedException(Factory.Messages.ManagedTokenError());
             }
-            TokenSource.Cancel();
+            TokenSource?.Cancel();
         }
 
         public void Dispose()
         {
-            TokenSource.Cancel();
-            ((IDisposable)Writer).Dispose();
-            ((IDisposable)TokenSource).Dispose();
+            TokenSource?.Cancel();
+            ((IDisposable)Writer)?.Dispose();
+            ((IDisposable)TokenSource)?.Dispose();
         }
 
         ~ConcurrentWriter()

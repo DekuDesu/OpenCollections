@@ -1,0 +1,5 @@
+C:\$Programming\C# Projects\OpenCollections\bin\Debug\OpenCollections.dll
+C:\$Programming\C# Projects\OpenCollections\bin\Debug\OpenCollections.pdb
+C:\$Programming\C# Projects\OpenCollections\obj\Debug\OpenCollections.csproj.CoreCompileInputs.cache
+C:\$Programming\C# Projects\OpenCollections\obj\Debug\OpenCollections.dll
+C:\$Programming\C# Projects\OpenCollections\obj\Debug\OpenCollections.pdb
