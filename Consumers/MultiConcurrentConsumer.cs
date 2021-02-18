@@ -90,7 +90,7 @@ namespace OpenCollections
 
         public void Consume()
         {
-            if(Operation is null)
+            if (Operation is null)
             {
                 throw new NotImplementedException($"No Func<{typeof(T)},{typeof(TResult)}> assigned to {nameof(MultiConcurrentConsumer<T, TResult>)}.{nameof(Operation)}");
             }
