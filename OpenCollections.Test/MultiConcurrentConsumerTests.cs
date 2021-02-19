@@ -134,6 +134,44 @@ namespace OpenCollections.Tests
             return (bags, expected: expectedNumbers);
         }
 
+        [Fact]
+        private void DoesntThrowWhenCancelAndNoManagedToken()
+        {
+            var multi = Factory.CreateMultiConsumer<int, int>();
+            multi.InvokeAsync();
+            void ThrowsIfSuccess()
+            {
+                multi.Cancel();
+                throw new Exception();
+            }
+            Assert.Throws<Exception>(ThrowsIfSuccess);
+        }
+
+        [Fact]
+        private void CantConsumeWhileAlreadyConsuming()
+        {
+            BrokenConcurrentQueue<int> input = new BrokenConcurrentQueue<int>();
+            BrokenConcurrentQueue<int> queue = new BrokenConcurrentQueue<int>();
+
+            input.TryAdd(1);
+            input.TryAdd(2);
+            input.TryAdd(3);
+
+            queue.AllowAdding = false;
+
+            var producer = Factory.CreateProducer(input);
+
+            var multiConsumer = Factory.CreateMultiConsumer<int, int?>(producer);
+
+            multiConsumer.Operation = (x) => x;
+
+            Task.Run(() => { Thread.Sleep(20); queue.AllowAdding = true; });
+
+            Task.Run(multiConsumer.Consume);
+            Task.Run(multiConsumer.Consume);
+
+        }
+
         private ConcurrentQueue<int> CreateTestBag(int maxNumbers = 1000)
         {
             var newBag = new ConcurrentQueue<int>();

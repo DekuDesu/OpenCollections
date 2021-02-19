@@ -15,8 +15,11 @@ namespace OpenCollections.Tests
     {
         private List<T> Data = new List<T>();
 
-        public bool AllowAdding { get; set; } = false;
-        public bool AllowRemoving { get; set; } = false;
+        public bool AllowAdding { get; set; } = true;
+        public bool AllowRemoving { get; set; } = true;
+
+        public int AllowAddingAfterNumberOfAttempts = 10;
+        public int AllowRemovingAfterNumberOfAttempts = 10;
 
         public int Count => Data.Count;
         public object SyncRoot { get; }
@@ -38,7 +41,7 @@ namespace OpenCollections.Tests
 
         public bool TryAdd(T item)
         {
-            if (AllowAdding)
+            if (AllowAdding || AllowAddingAfterNumberOfAttempts-- <= 0)
             {
                 Data.Add(item);
                 return true;
@@ -48,7 +51,7 @@ namespace OpenCollections.Tests
 
         public bool TryTake(out T item)
         {
-            if (AllowRemoving)
+            if (AllowRemoving || AllowRemovingAfterNumberOfAttempts-- <= 0)
             {
                 item = Data.First();
                 Data.RemoveAt(0);
