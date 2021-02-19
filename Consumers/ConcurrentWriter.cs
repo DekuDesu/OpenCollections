@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
@@ -123,7 +122,7 @@ namespace OpenCollections
                 // this has two seperate while loops to avoid a boolean check of writeLines every loop
                 if (writeLines)
                 {
-                    while (Collection.Count() > 0)
+                    while (Collection.Count > 0)
                     {
                         T line;
 
@@ -137,7 +136,7 @@ namespace OpenCollections
                 }
                 else
                 {
-                    while (Collection.Count() > 0)
+                    while (Collection.Count > 0)
                     {
                         T line;
 
