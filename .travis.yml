@@ -4,5 +4,5 @@ before_script:
   - bash <(curl -Ls https://coverage.codacy.com/get.sh) download
 
 after_success:
-  - bash /packages/JetBrains.dotCover.CommandLineTools.linux-x64.2020.3.2/tools/dotcover.sh cover coverage.xml
+  - bash /home/travis/build/DekuDesu/OpenCollections/packages/JetBrains.dotCover.CommandLineTools.linux-x64.2020.3.2/tools/dotcover.sh cover coverage.xml
   - bash <(curl -Ls https://coverage.codacy.com/get.sh)
