@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AnalyseParams>
+  <TargetExecutable>.\packages\xunit.runner.console.2.4.1\tools\net471\xunit.console.exe</TargetExecutable>
+  <TargetArguments>.\OpenCollections.Test\bin\Debug\OpenCollections.Test.dll</TargetArguments>
+  <Output>AppCoverageReport.xml</Output>
+  <ReportType>DetailedXml</ReportType>
+  <Filters>
+    <ExcludeFilters>
+      <FilterEntry>
+        <ClassMask>xunit*</ClassMask>
+      </FilterEntry>
+    </ExcludeFilters>
+  </Filters>
+</AnalyseParams>
