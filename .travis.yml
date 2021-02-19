@@ -4,5 +4,4 @@ before_script:
   - bash <(curl -Ls https://coverage.codacy.com/get.sh) download
 
 after_success:
-  - bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
-    -r results.xml
+  - bash <(curl -Ls https://coverage.codacy.com/get.sh)
