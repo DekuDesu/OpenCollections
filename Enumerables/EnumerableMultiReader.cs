@@ -64,7 +64,7 @@ namespace OpenCollections
 
         public void Dispose()
         {
-            ((IDisposable)Reader).Dispose();
+            ((IDisposable)Reader)?.Dispose();
         }
 
         ~EnumerableMultiReader()

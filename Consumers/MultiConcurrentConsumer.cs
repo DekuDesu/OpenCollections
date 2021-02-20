@@ -61,7 +61,7 @@ namespace OpenCollections
             {
                 throw new NotSupportedException(Factory.Messages.ManagedTokenError());
             }
-            TokenSource.Cancel();
+            TokenSource?.Cancel();
         }
 
         public void Consume()
@@ -120,7 +120,7 @@ namespace OpenCollections
 
         public void Dispose()
         {
-            ((IDisposable)TokenSource).Dispose();
+            ((IDisposable)TokenSource)?.Dispose();
         }
     }
 }

@@ -150,7 +150,7 @@ namespace OpenCollections
 
         public void Dispose()
         {
-            ((IDisposable)TokenSource).Dispose();
+            ((IDisposable)TokenSource)?.Dispose();
         }
 
         public void Invoke() => Produce();
