@@ -50,34 +50,10 @@ namespace OpenCollections
         {
         }
 
-
         public void Invoke() => Consume();
 
         public async Task InvokeAsync() => await ConsumeAsync().ConfigureAwait(false);
 
-        /// <summary>
-        /// Automatically hooks into the given producer/consumer and consumes items whenever items are produced by the other object
-        /// </summary>
-        /// <param name="ProducerCollection"></param>
-        public MultiConcurrentConsumer(IEnumerable<IConcurrentOutput<T>> ProducerCollection)
-        {
-            List<IProducerConsumerCollection<T>> collections = new List<IProducerConsumerCollection<T>>();
-
-            foreach (var item in ProducerCollection)
-            {
-                collections.Add(item.ResultCollection);
-                item.Started += this.Consume;
-                item.CollectionChanged += this.Consume;
-                item.Finished += this.Consume;
-            }
-
-            Collections = collections;
-        }
-
-        public MultiConcurrentConsumer(IProducerConsumerCollection<TResult> resultCollection)
-        {
-            ResultCollection = resultCollection;
-        }
 
         public void Cancel()
         {
@@ -146,6 +122,5 @@ namespace OpenCollections
         {
             ((IDisposable)TokenSource).Dispose();
         }
-
     }
 }

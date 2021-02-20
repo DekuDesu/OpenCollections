@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,7 +27,7 @@ namespace OpenCollections.Helpers
         internal static bool TryAddBufferItem<T>(IList<T> Buffer, IProducerConsumerCollection<T> ResultCollection)
         {
             // try to add the first item in the buffer
-            if (ResultCollection.TryAdd(Buffer.First()))
+            if (ResultCollection.TryAdd(Buffer[0]))
             {
                 // since we were able to add the item remove it from the buffer and move on
                 Buffer.RemoveAt(0);
@@ -46,7 +45,7 @@ namespace OpenCollections.Helpers
         internal static void TryEmptyBuffer<T>(IList<T> Buffer, IProducerConsumerCollection<T> ResultCollection, bool returnOnFail = true)
         {
             // attempt to add the items from the buffer, if it fails continue consuming items
-            while (Buffer.Count > 0)
+            while (Buffer?.Count > 0)
             {
                 if (TryAddBufferItem(Buffer, ResultCollection) == false && returnOnFail)
                 {
@@ -67,7 +66,7 @@ namespace OpenCollections.Helpers
         internal static void ConsumeItems<T, TResult>(IProducerConsumerCollection<T> InCollection, IProducerConsumerCollection<TResult> OutCollection, IList<TResult> BufferCollection, in Func<T, TResult> Operation, in Action CollectionChanged)
         {
             // attempt to consume items until there are no more items to consume
-            while (InCollection.Count() > 0)
+            while (InCollection.Count > 0)
             {
                 // If the buffer has items we should attempt to add them first to keep FIFO standard
                 TryEmptyBuffer(BufferCollection, OutCollection);
