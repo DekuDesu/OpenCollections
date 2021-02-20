@@ -85,39 +85,19 @@ namespace OpenCollections.Tests
         [Fact]
         public void BufferWorks()
         {
-            BrokenConcurrentQueue<int> input = new BrokenConcurrentQueue<int>();
             BrokenConcurrentQueue<int> output = new BrokenConcurrentQueue<int>();
 
-            input.AllowAdding = true;
+            output.RandomlyFail = true;
 
-            input.TryAdd(1);
-            input.TryAdd(2);
-            input.TryAdd(3);
-            input.TryAdd(4);
+            var bag = CreateTestBag();
 
-            input.AllowRemoving = true;
-
-            output.AllowAdding = false;
-
-            var consumer = Factory.CreateConsumer(input, output);
+            var consumer = Factory.CreateConsumer(bag, output);
 
             consumer.Operation = (x) => x;
 
-            void PreventAddingForTime(int time)
-            {
-                Thread.Sleep(time);
-                output.AllowAdding = true;
-            }
-
-            Task.Run(() =>
-            {
-                PreventAddingForTime(20);
-            });
-
             consumer.Consume();
 
-            Assert.True(input.Count == 0);
-            Assert.True(output.Count == 4);
+            Assert.True(consumer.ResultCollection.Count > 0);
         }
 
         [Fact]

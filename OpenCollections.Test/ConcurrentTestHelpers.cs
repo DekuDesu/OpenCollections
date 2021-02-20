@@ -21,6 +21,10 @@ namespace OpenCollections.Tests
         public int AllowAddingAfterNumberOfAttempts = 10;
         public int AllowRemovingAfterNumberOfAttempts = 10;
 
+        public bool RandomlyFail = true;
+
+        private static Random Generator = new Random();
+
         public int Count => Data.Count;
         public object SyncRoot { get; }
         public bool IsSynchronized { get; } = true;
@@ -41,11 +45,25 @@ namespace OpenCollections.Tests
 
         public bool TryAdd(T item)
         {
-            if (AllowAdding || AllowAddingAfterNumberOfAttempts-- <= 0)
+            bool pass = false;
+            if (RandomlyFail)
+            {
+                if (Generator.Next(0, 100) >= 25)
+                {
+                    pass = true;
+                }
+            }
+            else
+            {
+                pass = AllowAdding || AllowAddingAfterNumberOfAttempts-- <= 0;
+            }
+
+            if (pass)
             {
                 Data.Add(item);
                 return true;
             }
+
             return false;
         }
 

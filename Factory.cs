@@ -47,6 +47,21 @@ namespace OpenCollections
             return new ConcurrentProducer<T>(EnumerableObject);
         }
 
+        public static IConcurrentProducer<T> CreateProducer<T>(IEnumerable<T> EnumerableObject, IConcurrentInput<T> ObjectToOutputTo)
+        {
+            var producer = new ConcurrentProducer<T>(EnumerableObject);
+            producer.OutputTo(ObjectToOutputTo);
+            return producer;
+        }
+
+        public static IConcurrentProducer<T> CreateProducer<T>(IEnumerable<T> EnumerableObject, IProducerConsumerCollection<T> CollectionToOutPutTo)
+        {
+            return new ConcurrentProducer<T>(EnumerableObject)
+            {
+                ResultCollection = CollectionToOutPutTo
+            };
+        }
+
         // /////////////////////// CONSUMER
         public static IConcurrentConsumer<T, TResult> CreateConsumer<T, TResult>(IConcurrentOutput<T> ObjectToConsumeFrom)
         {

@@ -58,6 +58,62 @@ namespace OpenCollections.Tests
             Assert.Throws<NotSupportedException>(() => producer.Cancel());
         }
 
+        [Fact]
+        public void GracefullyHandlesNullIteratorYield()
+        {
+            IEnumerable<int?> Test()
+            {
+                yield return 1;
+                yield return 2;
+                yield return 3;
+                yield return default;
+            }
+            using (var producer = Factory.CreateProducer(Test()))
+            {
+                producer.Produce();
+                Assert.True(producer.ResultCollection.Count == 3);
+            }
+        }
+
+        [Fact]
+        public void DisposeTraverses()
+        {
+            int[] numbers = { 1, 2, 3 };
+            using (var producer = Factory.CreateProducer(numbers))
+            {
+                producer.Produce();
+                Assert.True(producer.ResultCollection.Count == 3);
+            }
+        }
+
+        [Fact]
+        private void DoesntThrowWhenCancelAndNoManagedToken()
+        {
+            string[] expected = CreateTestData();
+            var multi = Factory.CreateProducer(expected);
+            multi.InvokeAsync();
+            void ThrowsIfSuccess()
+            {
+                multi.Cancel();
+                throw new Exception();
+            }
+            Assert.Throws<Exception>(ThrowsIfSuccess);
+        }
+
+        [Fact]
+        public void BufferWorks()
+        {
+            BrokenConcurrentQueue<string> brokenQueue = new BrokenConcurrentQueue<string>();
+
+            brokenQueue.RandomlyFail = true;
+
+            string[] data = CreateTestData(10000);
+
+            var producer = Factory.CreateProducer(data, brokenQueue);
+
+            producer.Produce();
+        }
+
         private string[] CreateTestData(int number = 500)
         {
             string[] stringarray = new string[number];

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OpenCollections
 {
-    public interface IConcurrentProducer<T> : IConcurrentOutput<T>, IProducer<T>
+    public interface IConcurrentProducer<T> : IConcurrentOutput<T>, IProducer<T>, IDisposable
     {
 
     }
