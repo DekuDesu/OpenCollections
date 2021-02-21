@@ -33,21 +33,21 @@ namespace OpenCollections
 
         public async Task InvokeAsync() => await WriteLinesAsync().ConfigureAwait(false);
 
-        public async Task WriteLinesAsync() => await writeLinesAsync(true,default);
+        public async Task WriteLinesAsync() => await writeLinesAsync(true,default).ConfigureAwait(false);
 
-        public async Task WriteLinesAsync(bool append) => await writeLinesAsync(append,default);
+        public async Task WriteLinesAsync(bool append) => await writeLinesAsync(append,default).ConfigureAwait(false);
 
-        public async Task WriteLinesAsync(CancellationToken token) => await writeLinesAsync(true, token);
+        public async Task WriteLinesAsync(CancellationToken token) => await writeLinesAsync(true, token).ConfigureAwait(false);
 
-        public async Task WriteLinesAsync(bool append, CancellationToken token) => await writeLinesAsync(append,token);
+        public async Task WriteLinesAsync(bool append, CancellationToken token) => await writeLinesAsync(append,token).ConfigureAwait(false);
 
-        public async Task WriteAsync() => await writeAsync(true,default);
+        public async Task WriteAsync() => await writeAsync(true,default).ConfigureAwait(false);
 
-        public async Task WriteAsync(bool append) => await writeAsync(append, default);
+        public async Task WriteAsync(bool append) => await writeAsync(append, default).ConfigureAwait(false);
 
-        public async Task WriteAsync(CancellationToken token)=> await writeAsync(true, token);
+        public async Task WriteAsync(CancellationToken token)=> await writeAsync(true, token).ConfigureAwait(false);
 
-        public async Task WriteAsync(bool append, CancellationToken token) => await writeAsync(append, token);
+        public async Task WriteAsync(bool append, CancellationToken token) => await writeAsync(append, token).ConfigureAwait(false);
 
         public void WriteLines() => ConsumeLinesAndWrite();
 
