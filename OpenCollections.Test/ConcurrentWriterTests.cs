@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using Xunit;
 using System.Collections.Concurrent;
 using System.Threading;
+using Moq;
+using Autofac.Extras.Moq;
+using Autofac;
 
 namespace OpenCollections.Tests
 {
@@ -30,67 +33,77 @@ namespace OpenCollections.Tests
         }
 
         [Fact]
-        public void WritesFIFO()
+        public void CancelDoesntThrowWhenNotManaged()
         {
-            var dataQueue = GetRandomNumberList();
-
-            string[] expected = dataQueue.ToArray();
-
-            var writer = Factory.CreateWriter(Path, dataQueue);
-
-            writer.WriteLines(false);
-
-            var reader = Factory.CreateReader(Path);
-
-            var producer = Factory.CreateProducer(reader.ReadLine());
-
-            var consumer = Factory.CreateConsumer<string, int?>(producer);
-
-            List<string> actual = new List<string>();
-
-            consumer.Operation = (x) =>
+            var writer = Factory.CreateWriter("", Factory.CreateProducer(new int[] { 1, 2, 3 }));
+            void ThrowsOnSucess()
             {
-                actual.Add(x);
-                return null;
-            };
-
-            Task.WaitAll(Task.Run(() => producer.Produce()), Task.Run(() => consumer.Consume()));
-
-            var result = ConcurrentTestHelpers.VerifyCollection(expected, actual);
-
-            Assert.True(result.result, result.message);
+                writer.Cancel();
+                throw new System.ArithmeticException();
+            }
+            Assert.Throws<ArithmeticException>(ThrowsOnSucess);
         }
 
-        [Fact]
-        public void WritesLinesFIFOAsync()
+        [Theory]
+        [InlineData(new string[] { "1", "2", "3" }, "123")]
+        public void WritesFIFO(object[] data, string expected)
         {
-            var dataQueue = GetRandomNumberList();
-
-            string[] expected = dataQueue.ToArray();
-
-            var writer = Factory.CreateWriter(Path, dataQueue);
-
-            Task.WaitAll(writer.WriteLinesAsync(false));
-
-            var reader = Factory.CreateReader(Path);
-
-            var producer = Factory.CreateProducer(reader.ReadLine());
-
-            var consumer = Factory.CreateConsumer<string, int?>(producer);
-
-            List<string> actual = new List<string>();
-
-            consumer.Operation = (x) =>
+            string path = $"{PathBase}-{nameof(WritesFIFO)}.txt";
+            try
             {
-                actual.Add(x);
-                return null;
-            };
+                ConcurrentQueue<object> queue = new ConcurrentQueue<object>();
+                foreach (var item in data)
+                {
+                    queue.Enqueue(item);
+                }
+                using (var writer = Factory.CreateWriter<object>(path))
+                {
+                    writer.Collection = queue;
+                    writer.Write();
+                }
+                string actual;
+                using (var reader = File.OpenText(path))
+                {
+                    actual = reader.ReadToEnd();
+                }
 
-            Task.WaitAll(producer.ProduceAsync(), consumer.ConsumeAsync());
+                Assert.Equal(expected, actual);
+            }
+            finally {
+                File.Delete(path);
+            }
+        }
 
-            var result = ConcurrentTestHelpers.VerifyCollection(expected, actual);
+        [Theory]
+        [InlineData(new string[] { "1", "2", "3" }, "123")]
+        public void WritesLinesFIFOAsync(object[] data, string expected)
+        {
+            string path = $"{PathBase}-{nameof(WritesFIFO)}.txt";
+            try
+            {
+                ConcurrentQueue<object> queue = new ConcurrentQueue<object>();
+                foreach (var item in data)
+                {
+                    queue.Enqueue(item);
+                }
+                using (var writer = Factory.CreateWriter<object>(path))
+                {
+                    writer.Collection = queue;
 
-            Assert.True(result.result, result.message);
+                    Task.WaitAll(writer.WriteAsync());
+                }
+                string actual;
+                using (var reader = File.OpenText(path))
+                {
+                    actual = reader.ReadToEnd();
+                }
+
+                Assert.Equal(expected, actual);
+            }
+            finally
+            {
+                File.Delete(path);
+            }
         }
 
         [Fact]

@@ -47,7 +47,7 @@ namespace OpenCollections
         /// </summary>
         internal List<T> Buffer { get; private set; } = new List<T>();
 
-        private CancellationTokenSource TokenSource { get; set; }
+        private CancellationTokenSource TokenSource { get; set; } = new CancellationTokenSource();
 
         private CancellationToken ManagedToken { get; set; }
 
@@ -82,7 +82,9 @@ namespace OpenCollections
             {
                 return;
             }
+
             Started?.Invoke();
+
             // make sure we dispose of the object
             using (IEnumerator<T> enumerator = Enumerable.GetEnumerator())
             {
@@ -104,8 +106,11 @@ namespace OpenCollections
                     CollectionChanged?.Invoke();
                 }
             }
+
             Helpers.Consumer.TryEmptyBuffer(Buffer, ResultCollection, false);
+
             Finished?.Invoke();
+
             Producing = false;
         }
 
@@ -145,16 +150,29 @@ namespace OpenCollections
             {
                 throw new NotSupportedException($"Cancelling this task when it's token is being managed by a different TokenSource is not supported. Call TokenSource.Cancel() on the object managing the token provided to this object.");
             }
-            TokenSource.Cancel();
+            try
+            {
+                TokenSource?.Cancel();
+            }
+            catch (NullReferenceException) { }
         }
 
         public void Dispose()
         {
+            if (Enumerable is IDisposable disposableObject)
+            {
+                disposableObject?.Dispose();
+            }
             ((IDisposable)TokenSource)?.Dispose();
         }
 
         public void Invoke() => Produce();
 
         public async Task InvokeAsync() => await ProduceAsync().ConfigureAwait(false);
+
+        ~ConcurrentProducer()
+        {
+            Dispose();
+        }
     }
 }

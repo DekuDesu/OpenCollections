@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace OpenCollections
 {
-    public class ConcurrentWriter<T> : IConcurrentWriter<T>, IDisposable
+    public class ConcurrentWriter<T> : IConcurrentWriter<T>
     {
         public string Path { get; }
 
@@ -28,84 +28,47 @@ namespace OpenCollections
         public event Action Started;
 
         public IProducerConsumerCollection<T> Collection { get; set; } = new ConcurrentQueue<T>();
+
         public void Invoke() => WriteLines();
 
         public async Task InvokeAsync() => await WriteLinesAsync().ConfigureAwait(false);
 
-        public async Task WriteLinesAsync()
-        {
-            SetManagedToken();
+        public async Task WriteLinesAsync() => await writeLinesAsync(true,default);
 
-            await Task.Run(() => WriteLines(), TokenSource.Token).ConfigureAwait(false);
-        }
+        public async Task WriteLinesAsync(bool append) => await writeLinesAsync(append,default);
 
-        public async Task WriteLinesAsync(bool append)
-        {
-            SetManagedToken();
+        public async Task WriteLinesAsync(CancellationToken token) => await writeLinesAsync(true, token);
 
-            await Task.Run(() => WriteLines(append), TokenSource.Token).ConfigureAwait(false);
-        }
+        public async Task WriteLinesAsync(bool append, CancellationToken token) => await writeLinesAsync(append,token);
 
-        public async Task WriteLinesAsync(CancellationToken token)
-        {
-            token = SetManagedToken(token);
+        public async Task WriteAsync() => await writeAsync(true,default);
 
-            await Task.Run(() => WriteLines(), token).ConfigureAwait(false);
-        }
+        public async Task WriteAsync(bool append) => await writeAsync(append, default);
 
-        public async Task WriteLinesAsync(bool append, CancellationToken token)
-        {
-            token = SetManagedToken(token);
+        public async Task WriteAsync(CancellationToken token)=> await writeAsync(true, token);
 
-            await Task.Run(() => WriteLines(append), token).ConfigureAwait(false);
-        }
+        public async Task WriteAsync(bool append, CancellationToken token) => await writeAsync(append, token);
 
-        public async Task WriteAsync()
-        {
-            SetManagedToken();
+        public void WriteLines() => ConsumeLinesAndWrite();
 
-            await Task.Run(() => Write(), TokenSource.Token).ConfigureAwait(false);
-        }
+        public void WriteLines(bool append) => ConsumeLinesAndWrite(append);
 
-        public async Task WriteAsync(bool append)
-        {
-            SetManagedToken();
+        public void Write() => ConsumeLinesAndWrite(writeLines: false);
 
-            await Task.Run(() => Write(append), TokenSource.Token).ConfigureAwait(false);
-        }
+        public void Write(bool append) => ConsumeLinesAndWrite(append, writeLines: false);
 
-        public async Task WriteAsync(CancellationToken token)
-        {
-            token = SetManagedToken(token);
-
-            await Task.Run(() => Write(), token).ConfigureAwait(false);
-        }
-
-        public async Task WriteAsync(bool append, CancellationToken token)
+        private async Task writeAsync(bool append = true, CancellationToken token = default)
         {
             token = SetManagedToken(token);
 
             await Task.Run(() => Write(append), token).ConfigureAwait(false);
         }
 
-        public void WriteLines()
+        private async Task writeLinesAsync(bool append, CancellationToken token)
         {
-            ConsumeLinesAndWrite();
-        }
+            token = SetManagedToken(token);
 
-        public void WriteLines(bool append)
-        {
-            ConsumeLinesAndWrite(append);
-        }
-
-        public void Write()
-        {
-            ConsumeLinesAndWrite(writeLines: false);
-        }
-
-        public void Write(bool append)
-        {
-            ConsumeLinesAndWrite(append, writeLines: false);
+            await Task.Run(() => WriteLines(append), token).ConfigureAwait(false);
         }
 
         private void ConsumeLinesAndWrite(bool append = true, bool writeLines = true)

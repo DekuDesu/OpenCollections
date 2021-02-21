@@ -68,18 +68,19 @@ namespace OpenCollections.Tests
                 yield return 3;
                 yield return default;
             }
-            using (var producer = Factory.CreateProducer(Test()))
-            {
-                producer.Produce();
-                Assert.True(producer.ResultCollection.Count == 3);
-            }
+
+            var producer = Factory.CreateProducer(Test());
+
+            producer.Produce();
+
+            Assert.True(producer.ResultCollection.Count == 3);
         }
 
         [Fact]
         public void DisposeTraverses()
         {
             int[] numbers = { 1, 2, 3 };
-            using (var producer = Factory.CreateProducer(numbers))
+            using (var producer = new ConcurrentProducer<int>(numbers))
             {
                 producer.Produce();
                 Assert.True(producer.ResultCollection.Count == 3);

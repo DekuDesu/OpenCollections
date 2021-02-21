@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OpenCollections
 {
-    public interface IConcurrentWriter<T> : IConcurrentInput<T>, IConcurrentEvent
+    public interface IConcurrentWriter<T> : IConcurrentInput<T>, IConcurrentEvent, IDisposable
     {
         string Path { get; }
 
@@ -29,6 +29,5 @@ namespace OpenCollections
         void Write(bool append);
 
         void Cancel();
-        void Dispose();
     }
 }
