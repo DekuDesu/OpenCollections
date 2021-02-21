@@ -8,6 +8,7 @@
 <a href="https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=DekuDesu/OpenCollections&amp;utm_campaign=Badge_Grade">
 <a href="https://travis-ci.com/DekuDesu/OpenCollections"><img src="https://travis-ci.com/DekuDesu/OpenCollections.svg?branch=master"></a>
  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
+ <a href="https://dev.azure.com/OpenPipelines/OpenCollections/_build/latest?definitionId=1&branchName=master"><img src="https://dev.azure.com/OpenPipelines/OpenCollections/_apis/build/status/DekuDesu.OpenCollections?branchName=master"></a>
 </p>
 
 <p align="center">
