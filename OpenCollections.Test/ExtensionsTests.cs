@@ -62,5 +62,67 @@ namespace OpenCollections.Tests
 
             Assert.True(producer.ResultCollection.Count == numbers.Length);
         }
+
+        [Fact]
+        public void OberserveAsyncWorks()
+        {
+            var producer = Factory.CreateProducer(new int[] { 1 });
+
+            var consumer = Factory.CreateConsumer<int, int>();
+            consumer.Operation += x => x;
+
+            consumer.InputFrom(producer);
+            consumer.ObserveCollectionAsync(producer);
+
+            bool consumerStarted = false;
+            bool consumerFinised = false;
+
+            consumer.Started += () => consumerStarted = true;
+            consumer.Finished += () => consumerFinised = true;
+
+            // what we are looking for here, becuase it may not be immediately obvious, is that producer.Produce(); is synchronous it will produce the items immediately and the consumer will be ran asynchronously on a background thread, therefor this will run and continue immediately and move to the assert, if the consumer is not finished when the asserts are it, then the consumer is on a background thread running and it was sucessfully ran on a background thread.
+
+            producer.Produce();
+
+            try
+            {
+                Assert.True(consumerStarted);
+                Assert.False(consumerFinised);
+            }
+            finally
+            {
+                consumer.Cancel();
+            }
+        }
+
+        [Fact]
+        public void UnObservceAsyncWorks()
+        {
+            var producer = Factory.CreateProducer(new int[] { 1 });
+
+            var consumer = Factory.CreateConsumer<int, int>();
+            consumer.Operation += x => x;
+
+            consumer.InputFrom(producer);
+
+            consumer.ObserveCollectionAsync(producer);
+
+            consumer.StopObservingAsync(producer);
+
+            bool consumerStarted = false;
+
+            consumer.Started += () => { consumerStarted = true; };
+
+            producer.Produce();
+
+            try
+            {
+                Assert.False(consumerStarted);
+            }
+            finally
+            {
+                consumer.Cancel();
+            }
+        }
     }
 }
