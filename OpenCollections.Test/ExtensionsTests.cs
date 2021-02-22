@@ -113,7 +113,7 @@ namespace OpenCollections.Tests
 
             consumer.Started += () => { consumerStarted = true; };
 
-            producer.Produce();
+            Task.WaitAll(producer.ProduceAsync());
 
             try
             {
