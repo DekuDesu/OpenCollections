@@ -83,7 +83,7 @@ namespace OpenCollections.Tests
 
             string[] expected = { "1", "2", "3", "4", "5", "6" };
 
-            var result = ConcurrentTestHelpers.VerifyCollection(expected, output);
+            var result = Helpers.VerifyCollection(expected, output);
 
             Assert.True(result.result, result.message);
         }
@@ -116,7 +116,7 @@ namespace OpenCollections.Tests
                 actual.Add(item);
             }
 
-            (bool result, string error) = ConcurrentTestHelpers.VerifyCollection(expected, actual);
+            (bool result, string error) = Helpers.VerifyCollection(expected, actual);
 
             Assert.True(result, error);
         }

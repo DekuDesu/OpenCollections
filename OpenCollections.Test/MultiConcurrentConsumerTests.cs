@@ -40,7 +40,7 @@ namespace OpenCollections.Tests
                 }
             }
 
-            var actual = ConcurrentTestHelpers.VerifyAllValuesPresent(consumer.ResultCollection, expectedNumbers);
+            var actual = Helpers.VerifyAllValuesPresent(consumer.ResultCollection, expectedNumbers);
 
             _ = "";
 
@@ -74,7 +74,7 @@ namespace OpenCollections.Tests
                 }
             }
 
-            var actual = ConcurrentTestHelpers.VerifyAllValuesPresent(consumer.ResultCollection, expectedNumbers);
+            var actual = Helpers.VerifyAllValuesPresent(consumer.ResultCollection, expectedNumbers);
 
             _ = "";
 
@@ -150,8 +150,8 @@ namespace OpenCollections.Tests
         [Fact]
         private void CantConsumeWhileAlreadyConsuming()
         {
-            BrokenConcurrentQueue<int> input = new BrokenConcurrentQueue<int>();
-            BrokenConcurrentQueue<int> queue = new BrokenConcurrentQueue<int>();
+            FaultyConcurrentQueue<int> input = new FaultyConcurrentQueue<int>();
+            FaultyConcurrentQueue<int> queue = new FaultyConcurrentQueue<int>();
 
             input.TryAdd(1);
             input.TryAdd(2);

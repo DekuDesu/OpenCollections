@@ -150,11 +150,7 @@ namespace OpenCollections
             {
                 throw new NotSupportedException($"Cancelling this task when it's token is being managed by a different TokenSource is not supported. Call TokenSource.Cancel() on the object managing the token provided to this object.");
             }
-            try
-            {
-                TokenSource?.Cancel();
-            }
-            catch (NullReferenceException) { }
+            TokenSource?.Cancel();
         }
 
         public void Dispose()

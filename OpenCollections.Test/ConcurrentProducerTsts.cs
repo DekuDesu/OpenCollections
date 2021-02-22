@@ -22,7 +22,7 @@ namespace OpenCollections.Tests
 
             producer.Produce();
 
-            (bool actual, string result) = ConcurrentTestHelpers.VerifyCollection(expected, producer.ResultCollection);
+            (bool actual, string result) = Helpers.VerifyCollection(expected, producer.ResultCollection);
 
             _ = result;
 
@@ -37,7 +37,7 @@ namespace OpenCollections.Tests
 
             producer.ProduceAsync().Wait();
 
-            (bool actual, string result) = ConcurrentTestHelpers.VerifyCollection(expected, producer.ResultCollection);
+            (bool actual, string result) = Helpers.VerifyCollection(expected, producer.ResultCollection);
 
             _ = result;
 
@@ -104,7 +104,7 @@ namespace OpenCollections.Tests
         [Fact]
         public void BufferWorks()
         {
-            BrokenConcurrentQueue<string> brokenQueue = new BrokenConcurrentQueue<string>();
+            FaultyConcurrentQueue<string> brokenQueue = new FaultyConcurrentQueue<string>();
 
             brokenQueue.RandomlyFail = true;
 

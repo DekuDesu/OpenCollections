@@ -86,7 +86,7 @@ namespace OpenCollections.Tests
                 actual.Add(item);
             }
 
-            (bool result, string error) = ConcurrentTestHelpers.VerifyCollection(expected, actual);
+            (bool result, string error) = Helpers.VerifyCollection(expected, actual);
 
             Assert.True(result, error);
         }

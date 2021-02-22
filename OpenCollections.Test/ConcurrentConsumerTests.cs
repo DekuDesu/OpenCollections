@@ -31,7 +31,7 @@ namespace OpenCollections.Tests
 
             consumer.Consume();
 
-            (bool actual, string result) = ConcurrentTestHelpers.VerifyCollection(expected, consumer.ResultCollection.ToArray());
+            (bool actual, string result) = Helpers.VerifyCollection(expected, consumer.ResultCollection.ToArray());
 
             Assert.True(actual, result);
         }
@@ -52,7 +52,7 @@ namespace OpenCollections.Tests
 
             consumer.ConsumeAsync().Wait();
 
-            (bool actual, string result) = ConcurrentTestHelpers.VerifyCollection(expected, consumer.ResultCollection.ToArray());
+            (bool actual, string result) = Helpers.VerifyCollection(expected, consumer.ResultCollection.ToArray());
 
             Assert.True(actual, result);
         }
@@ -85,7 +85,7 @@ namespace OpenCollections.Tests
         [Fact]
         public void BufferWorks()
         {
-            BrokenConcurrentQueue<int> output = new BrokenConcurrentQueue<int>();
+            FaultyConcurrentQueue<int> output = new FaultyConcurrentQueue<int>();
 
             output.RandomlyFail = true;
 
