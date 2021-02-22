@@ -118,7 +118,7 @@
   <ItemGroup>
     <Compile Include="ConcurrentConsumerTests.cs" />
     <Compile Include="ConcurrentProducerTsts.cs" />
-    <Compile Include="ConcurrentTestHelpers.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="ConcurrentWriterTests.cs" />
     <Compile Include="EnumerableMultiReaderTests.cs" />
     <Compile Include="EnumerableStreamReaderTests.cs" />

@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace OpenCollections
 {
-    public class ConcurrentWriter<T> : IConcurrentWriter<T>
+    public class ConcurrentWriter<T> : IConcurrentWriter<T>, IDisposable
     {
         public string Path { get; }
 
@@ -33,21 +33,21 @@ namespace OpenCollections
 
         public async Task InvokeAsync() => await WriteLinesAsync().ConfigureAwait(false);
 
-        public async Task WriteLinesAsync() => await writeLinesAsync(true,default).ConfigureAwait(false);
+        public async Task WriteLinesAsync() => await BeginWriteLinesAsync(true, default).ConfigureAwait(false);
 
-        public async Task WriteLinesAsync(bool append) => await writeLinesAsync(append,default).ConfigureAwait(false);
+        public async Task WriteLinesAsync(bool append) => await BeginWriteLinesAsync(append, default).ConfigureAwait(false);
 
-        public async Task WriteLinesAsync(CancellationToken token) => await writeLinesAsync(true, token).ConfigureAwait(false);
+        public async Task WriteLinesAsync(CancellationToken token) => await BeginWriteLinesAsync(true, token).ConfigureAwait(false);
 
-        public async Task WriteLinesAsync(bool append, CancellationToken token) => await writeLinesAsync(append,token).ConfigureAwait(false);
+        public async Task WriteLinesAsync(bool append, CancellationToken token) => await BeginWriteLinesAsync(append, token).ConfigureAwait(false);
 
-        public async Task WriteAsync() => await writeAsync(true,default).ConfigureAwait(false);
+        public async Task WriteAsync() => await BeginWriteAsync(true, default).ConfigureAwait(false);
 
-        public async Task WriteAsync(bool append) => await writeAsync(append, default).ConfigureAwait(false);
+        public async Task WriteAsync(bool append) => await BeginWriteAsync(append, default).ConfigureAwait(false);
 
-        public async Task WriteAsync(CancellationToken token)=> await writeAsync(true, token).ConfigureAwait(false);
+        public async Task WriteAsync(CancellationToken token) => await BeginWriteAsync(true, token).ConfigureAwait(false);
 
-        public async Task WriteAsync(bool append, CancellationToken token) => await writeAsync(append, token).ConfigureAwait(false);
+        public async Task WriteAsync(bool append, CancellationToken token) => await BeginWriteAsync(append, token).ConfigureAwait(false);
 
         public void WriteLines() => ConsumeLinesAndWrite();
 
@@ -57,14 +57,14 @@ namespace OpenCollections
 
         public void Write(bool append) => ConsumeLinesAndWrite(append, writeLines: false);
 
-        private async Task writeAsync(bool append = true, CancellationToken token = default)
+        private async Task BeginWriteAsync(bool append, CancellationToken token)
         {
             token = SetManagedToken(token);
 
             await Task.Run(() => Write(append), token).ConfigureAwait(false);
         }
 
-        private async Task writeLinesAsync(bool append, CancellationToken token)
+        private async Task BeginWriteLinesAsync(bool append, CancellationToken token)
         {
             token = SetManagedToken(token);
 

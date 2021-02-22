@@ -11,7 +11,7 @@ namespace OpenCollections.Tests
     /// This is a version of ConcurrentQueue that allows to disable either adding or removing items, perfect for testing failures or delays in asynchronous methods
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class BrokenConcurrentQueue<T> : IProducerConsumerCollection<T>
+    public class FaultyConcurrentQueue<T> : IProducerConsumerCollection<T>
     {
         private List<T> Data = new List<T>();
 
@@ -69,7 +69,20 @@ namespace OpenCollections.Tests
 
         public bool TryTake(out T item)
         {
-            if (AllowRemoving || AllowRemovingAfterNumberOfAttempts-- <= 0)
+            bool pass = false;
+            if (RandomlyFail)
+            {
+                if (Generator.Next(0, 100) >= 25)
+                {
+                    pass = true;
+                }
+            }
+            else
+            {
+                pass = AllowRemoving || AllowRemovingAfterNumberOfAttempts-- <= 0;
+            }
+
+            if (pass)
             {
                 item = Data.First();
                 Data.RemoveAt(0);
@@ -85,11 +98,16 @@ namespace OpenCollections.Tests
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => Data.GetEnumerator();
     }
-    public static class ConcurrentTestHelpers
+    public static class Helpers
     {
         public static void Add<T>(this ConcurrentQueue<T> queue, T item)
         {
             queue.Enqueue(item);
+        }
+
+        public static void Add<T>(this IProducerConsumerCollection<T> collection, T item)
+        {
+            collection.TryAdd(item);
         }
 
         public static (bool result, string message) VerifyCollection<T>(IEnumerable<T> expected, IEnumerable<T> actual) where T : IEquatable<T>
@@ -97,9 +115,12 @@ namespace OpenCollections.Tests
             if (expected is null ^ actual is null)
             {
                 string expectedNull = expected is null ? "null" : "not null";
+
                 string actualNull = actual is null ? "null" : "not null";
+
                 return (false, $"Expected: {expectedNull} Actual: {actualNull}");
             }
+
             if (expected.Count() != actual.Count())
             {
                 return (false, $"Collection sizes different: Expected: {expected.Count()} Actual: {actual.Count()}");

@@ -40,7 +40,7 @@ namespace OpenCollections.Tests
 
             var casted = actual.Select((x) => x.ToString());
 
-            (bool result, string error) = ConcurrentTestHelpers.VerifyCollection(expected, casted);
+            (bool result, string error) = Helpers.VerifyCollection(expected, casted);
 
             Assert.True(result, error);
         }
@@ -68,7 +68,7 @@ namespace OpenCollections.Tests
 
             var casted = expected.Select((x) => x.ToString() + "-Op2");
 
-            (bool result, string error) = ConcurrentTestHelpers.VerifyCollection(casted, actual);
+            (bool result, string error) = Helpers.VerifyCollection(casted, actual);
 
             Assert.True(result, error);
         }
@@ -100,7 +100,7 @@ namespace OpenCollections.Tests
 
             Task.WaitAll(producer.ProduceAsync(), intparser.ConsumeAsync(), multiplier.ConsumeAsync(), multiplier2.ConsumeAsync());
 
-            var actual = ConcurrentTestHelpers.VerifyCollection(expected, multiplier2.ResultCollection);
+            var actual = Helpers.VerifyCollection(expected, multiplier2.ResultCollection);
 
             Assert.True(actual.result, actual.message);
         }
@@ -123,7 +123,7 @@ namespace OpenCollections.Tests
 
             Task.WaitAll(producer.ProduceAsync(), consumer.ConsumeAsync());
 
-            var actual = ConcurrentTestHelpers.VerifyCollection(expected, consumer.ResultCollection);
+            var actual = Helpers.VerifyCollection(expected, consumer.ResultCollection);
 
             Assert.True(actual.result, actual.message);
         }

@@ -46,10 +46,6 @@ namespace OpenCollections
 
         private CancellationToken ManagedToken { get; set; }
 
-        public MultiConcurrentConsumer()
-        {
-        }
-
         public void Invoke() => Consume();
 
         public async Task InvokeAsync() => await ConsumeAsync().ConfigureAwait(false);
