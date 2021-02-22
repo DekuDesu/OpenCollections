@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -74,25 +75,24 @@ namespace OpenCollections.Tests
             consumer.InputFrom(producer);
             consumer.ObserveCollectionAsync(producer);
 
-            bool consumerStarted = false;
-            bool consumerFinised = false;
+            Action expected = () => consumer.ConsumeAsync();
 
-            consumer.Started += () => consumerStarted = true;
-            consumer.Finished += () => consumerFinised = true;
+            bool started = false;
 
-            // what we are looking for here, becuase it may not be immediately obvious, is that producer.Produce(); is synchronous it will produce the items immediately and the consumer will be ran asynchronously on a background thread, therefor this will run and continue immediately and move to the assert, if the consumer is not finished when the asserts are it, then the consumer is on a background thread running and it was sucessfully ran on a background thread.
+            consumer.Started += () => started = true;
 
             producer.Produce();
 
-            try
+            void wait()
             {
-                Assert.True(consumerStarted);
-                Assert.False(consumerFinised);
+                Thread.Sleep(10);
             }
-            finally
-            {
-                consumer.Cancel();
-            }
+
+            Task.WaitAll(Task.Run(wait));
+
+            Assert.True(started);
+
+            consumer.Cancel();
         }
 
         [Fact]
