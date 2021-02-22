@@ -59,6 +59,22 @@ namespace OpenCollections
             ObjectThatProducesItems.HookEvents(ObjectThatConsumesItems);
         }
 
+        public static void StopObservingAsync<T>(this IConcurrentInput<T> ObjectThatConsumesItems, IConcurrentOutput<T> ObjectThatProducesItems)
+        {
+            ObjectThatProducesItems.UnHookEventsAsync(ObjectThatConsumesItems);
+        }
+
+        /// <summary>
+        /// Subcsribes <paramref name="ObjectThatConsumesItems"/> to <paramref name="ObjectThatProducesItems"/>, so that when <paramref name="ObjectThatProducesItems"/> produces items <paramref name="ObjectThatConsumesItems"/> begins consuming asynchronously
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ObjectThatConsumesItems"></param>
+        /// <param name="ObjectThatProducesItems"></param>
+        public static void ObserveCollectionAsync<T>(this IConcurrentInput<T> ObjectThatConsumesItems, IConcurrentOutput<T> ObjectThatProducesItems)
+        {
+            ObjectThatProducesItems.HookEventsAsync(ObjectThatConsumesItems);
+        }
+
         private static void HookEvents(this IConcurrentEvent host, IConcurrentEvent subscriber)
         {
             host.Finished += subscriber.Invoke;
@@ -71,6 +87,20 @@ namespace OpenCollections
             host.Finished -= subscriber.Invoke;
             host.CollectionChanged -= subscriber.Invoke;
             host.Started -= subscriber.Invoke;
+        }
+
+        private static void HookEventsAsync(this IConcurrentEvent host, IConcurrentEvent subscriber)
+        {
+            host.Finished += () => subscriber.InvokeAsync();
+            host.CollectionChanged += () => subscriber.InvokeAsync();
+            host.Started += () => subscriber.InvokeAsync();
+        }
+
+        private static void UnHookEventsAsync(this IConcurrentEvent host, IConcurrentEvent subscriber)
+        {
+            host.Finished -= () => subscriber.InvokeAsync();
+            host.CollectionChanged -= () => subscriber.InvokeAsync();
+            host.Started -= () => subscriber.InvokeAsync();
         }
     }
 }
