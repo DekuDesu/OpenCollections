@@ -63,11 +63,13 @@ namespace OpenCollections.Helpers
         /// <param name="OutCollection"></param>
         /// <param name="BufferCollection"></param>
         /// <param name="Operation"></param>
-        internal static void ConsumeItems<T, TResult>(IProducerConsumerCollection<T> InCollection, IProducerConsumerCollection<TResult> OutCollection, IList<TResult> BufferCollection, in Func<T, TResult> Operation, in Action CollectionChanged)
+        internal static void ConsumeItems<T, TResult>(IProducerConsumerCollection<T> InCollection, IProducerConsumerCollection<TResult> OutCollection, IList<TResult> BufferCollection, in Func<T, TResult> Operation, in Action CollectionChanged, CancellationToken token, in Func<CancellationToken, Task> CollectionChangedAsync)
         {
             // attempt to consume items until there are no more items to consume
             while (InCollection.Count > 0)
             {
+                token.ThrowIfCancellationRequested();
+
                 // If the buffer has items we should attempt to add them first to keep FIFO standard
                 TryEmptyBuffer(BufferCollection, OutCollection);
 
@@ -75,6 +77,7 @@ namespace OpenCollections.Helpers
                 if (TryConsumeItem(InCollection, OutCollection, BufferCollection, Operation))
                 {
                     CollectionChanged?.Invoke();
+                    CollectionChangedAsync?.Invoke(token);
                 }
             }
 

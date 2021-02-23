@@ -29,28 +29,24 @@ namespace OpenCollections
 
         internal List<TResult> Buffer = new List<TResult>();
 
-        /// <summary>
-        /// Invoked when the consumer runs out of items to consume from ther Collection
-        /// </summary>
         public event Action Finished;
 
-        /// <summary>
-        /// Invoked every time the consumer successfully consumes and item and adds it to the result collection
-        /// </summary>
         public event Action CollectionChanged;
 
-        /// <summary>
-        /// Invoked every time the consumer begins consuming items
-        /// </summary>
+        public event Func<CancellationToken, Task> CollectionChangedAsync;
+
         public event Action Started;
 
-        private CancellationTokenSource TokenSource;
+        private CancellationTokenSource TokenSource = new CancellationTokenSource();
 
         private CancellationToken ManagedToken;
 
         public void Invoke() => Consume();
 
-        public async Task InvokeAsync() => await ConsumeAsync().ConfigureAwait(false);
+        public async Task InvokeAsync(CancellationToken token)
+        {
+            await ConsumeAsync(token).ConfigureAwait(false);
+        }
 
         public void Consume()
         {
@@ -68,7 +64,15 @@ namespace OpenCollections
 
             Started?.Invoke();
 
-            Helpers.Consumer.ConsumeItems(Collection, ResultCollection, Buffer, Operation, CollectionChanged);
+            Helpers.Consumer.ConsumeItems(
+                    InCollection: Collection,
+                    OutCollection: ResultCollection,
+                    BufferCollection: Buffer,
+                    Operation: Operation,
+                    CollectionChanged: CollectionChanged,
+                    token: ManagedToken == default ? TokenSource.Token : ManagedToken,
+                    CollectionChangedAsync: CollectionChangedAsync
+                );
 
             Consuming = false;
 
@@ -122,6 +126,5 @@ namespace OpenCollections
         {
             ((IDisposable)TokenSource)?.Dispose();
         }
-
     }
 }

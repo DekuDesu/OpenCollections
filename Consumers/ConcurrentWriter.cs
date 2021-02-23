@@ -17,21 +17,28 @@ namespace OpenCollections
             Path = path;
         }
 
-        CancellationTokenSource TokenSource;
+        CancellationTokenSource TokenSource = new CancellationTokenSource();
 
         CancellationToken ManagedToken;
 
         private StreamWriter Writer;
 
         public event Action Finished;
+
         public event Action CollectionChanged;
+
+        public event Func<CancellationToken, Task> CollectionChangedAsync;
+
         public event Action Started;
 
         public IProducerConsumerCollection<T> Collection { get; set; } = new ConcurrentQueue<T>();
 
         public void Invoke() => WriteLines();
 
-        public async Task InvokeAsync() => await WriteLinesAsync().ConfigureAwait(false);
+        public async Task InvokeAsync(CancellationToken token)
+        {
+            await WriteLinesAsync(token).ConfigureAwait(false);
+        }
 
         public async Task WriteLinesAsync() => await BeginWriteLinesAsync(true, default).ConfigureAwait(false);
 
@@ -92,7 +99,7 @@ namespace OpenCollections
                         if (Collection.TryTake(out line))
                         {
                             CollectionChanged?.Invoke();
-
+                            CollectionChangedAsync?.Invoke(ManagedToken == default ? TokenSource.Token : ManagedToken);
                             Writer.WriteLine(line);
                         }
                     }
@@ -106,7 +113,7 @@ namespace OpenCollections
                         if (Collection.TryTake(out line))
                         {
                             CollectionChanged?.Invoke();
-
+                            CollectionChangedAsync?.Invoke(ManagedToken == default ? TokenSource.Token : ManagedToken);
                             Writer.Write(line);
                         }
                     }
