@@ -25,23 +25,13 @@ namespace OpenCollections
         /// </summary>
         public bool Producing { get; private set; }
 
-        /// <summary>
-        /// Invokes when the producer begins producing items.
-        /// </summary>
-        /// 
         public event Action Started;
 
-        /// <summary>
-        /// Invokes when the producer has finished producing items from the <see cref="IEnumerable"/>
-        /// </summary>
-        /// 
-        public event Action Finished;
-
-        /// <summary>
-        /// Invokes every time the <see cref="ResultCollection"/> has items added to it.
-        /// </summary>
         public event Action CollectionChanged;
 
+        public event Func<CancellationToken, Task> CollectionChangedAsync;
+
+        public event Action Finished;
         /// <summary>
         /// The list where items are temporaily stored while they are waiting to be added to the <see cref="ResultCollection"/>
         /// </summary>
@@ -104,6 +94,7 @@ namespace OpenCollections
                     }
 
                     CollectionChanged?.Invoke();
+                    CollectionChangedAsync?.Invoke(token);
                 }
             }
 
@@ -164,7 +155,10 @@ namespace OpenCollections
 
         public void Invoke() => Produce();
 
-        public async Task InvokeAsync() => await ProduceAsync().ConfigureAwait(false);
+        public async Task InvokeAsync(CancellationToken token)
+        {
+            await ProduceAsync(token).ConfigureAwait(false);
+        }
 
         ~ConcurrentProducer()
         {

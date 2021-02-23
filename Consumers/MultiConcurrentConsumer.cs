@@ -22,7 +22,11 @@ namespace OpenCollections
         public bool Consuming { get; private set; }
 
         public event Action Finished;
+
         public event Action CollectionChanged;
+
+        public event Func<CancellationToken, Task> CollectionChangedAsync;
+
         public event Action Started;
 
         /// <summary>
@@ -42,14 +46,16 @@ namespace OpenCollections
         /// </summary>
         internal List<TResult> Buffer = new List<TResult>();
 
-        private CancellationTokenSource TokenSource { get; set; }
+        private CancellationTokenSource TokenSource = new CancellationTokenSource();
 
         private CancellationToken ManagedToken { get; set; }
 
         public void Invoke() => Consume();
 
-        public async Task InvokeAsync() => await ConsumeAsync().ConfigureAwait(false);
-
+        public async Task InvokeAsync(CancellationToken token)
+        {
+            await ConsumeAsync(token).ConfigureAwait(false);
+        }
 
         public void Cancel()
         {
@@ -78,7 +84,15 @@ namespace OpenCollections
 
             foreach (var Collection in Collections)
             {
-                Helpers.Consumer.ConsumeItems(Collection, ResultCollection, Buffer, Operation, CollectionChanged);
+                Helpers.Consumer.ConsumeItems(
+                        InCollection: Collection,
+                        OutCollection: ResultCollection,
+                        BufferCollection: Buffer,
+                        Operation: Operation,
+                        CollectionChanged: CollectionChanged,
+                        token: ManagedToken == default ? TokenSource.Token : ManagedToken,
+                        CollectionChangedAsync: CollectionChangedAsync
+                    );
             }
 
             Consuming = false;
@@ -118,5 +132,6 @@ namespace OpenCollections
         {
             ((IDisposable)TokenSource)?.Dispose();
         }
+
     }
 }

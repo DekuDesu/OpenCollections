@@ -385,7 +385,7 @@ namespace OpenCollections.Tests
 
                 using (var writer = Factory.CreateWriter(path, NewQueue()))
                 {
-                    Task.WaitAll(writer.InvokeAsync());
+                    Task.WaitAll(writer.InvokeAsync(default));
                 }
 
                 result = Helpers.VerifyCollection(expected, ReadFileLines(path));

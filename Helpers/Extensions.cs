@@ -91,16 +91,12 @@ namespace OpenCollections
 
         private static void HookEventsAsync(this IConcurrentEvent host, IConcurrentEvent subscriber)
         {
-            host.Finished += () => subscriber.InvokeAsync();
-            host.CollectionChanged += () => subscriber.InvokeAsync();
-            host.Started += () => subscriber.InvokeAsync();
+            host.CollectionChangedAsync += subscriber.InvokeAsync;
         }
 
         private static void UnHookEventsAsync(this IConcurrentEvent host, IConcurrentEvent subscriber)
         {
-            host.Finished -= () => subscriber.InvokeAsync();
-            host.CollectionChanged -= () => subscriber.InvokeAsync();
-            host.Started -= () => subscriber.InvokeAsync();
+            host.CollectionChangedAsync -= subscriber.InvokeAsync;
         }
     }
 }
