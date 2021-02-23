@@ -35,7 +35,7 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: '.\packages\OpenCover.4.7.922\tools\OpenCover.Console.exe -register:user "-filter:+[*OpenCollection*]* -[*xunit*]*" "-target:.\packages\xunit.runner.console.2.4.1\tools\net471\xunit.console.exe" "-targetargs: .\OpenCollections.Test\bin\Debug\OpenCollections.Test.dll -noshadow"'
+    script: '.\packages\OpenCover.4.7.922\tools\OpenCover.Console.exe -register:user "-filter:+[*OpenCollection*]* -[*xunit*]*" "-target:.\packages\xunit.runner.console.2.4.1\tools\net471\xunit.console.exe" "-targetargs: .\OpenCollections.Test\bin\Release\OpenCollections.Test.dll -noshadow"'
 - task: CmdLine@2
   inputs:
     script: '.\packages\OpenCoverToCoberturaConverter.0.3.4\tools\OpenCoverToCoberturaConverter.exe "-input:results.xml" "-output:Cobertura.xml"'
