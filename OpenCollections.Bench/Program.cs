@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 using OpenCollections;
 
-namespace OpenCollections.Benchmark
+namespace OpenCollections.Bench
 {
     class Program
     {
@@ -15,7 +17,8 @@ namespace OpenCollections.Benchmark
         {
             //_ = BenchmarkRunner.Run<AsyncPipelineBenchmark>();
             //_ = BenchmarkRunner.Run<EnumerableStreamReaderBenchmark>();
-            _ = BenchmarkRunner.Run<PipelineExampleVsLINQBenchmark>();
+            //_ = BenchmarkRunner.Run<PipelineExampleVsLINQBenchmark>();
+            _ = BenchmarkRunner.Run<HttpPipelineVsConsumerPipeline>();
             Console.Read();
         }
     }

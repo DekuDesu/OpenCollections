@@ -8,7 +8,7 @@ using OpenCollections;
 using System.Threading;
 using System.IO;
 
-namespace OpenCollections.Tests
+namespace OpenCollections.Test
 {
     public class ConcurrentProducerTsts
     {

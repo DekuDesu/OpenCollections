@@ -7,7 +7,7 @@ using Xunit;
 using OpenCollections;
 using System.IO;
 
-namespace OpenCollections.Tests
+namespace OpenCollections.Test
 {
     public class EnumerableMultiReaderTests
     {

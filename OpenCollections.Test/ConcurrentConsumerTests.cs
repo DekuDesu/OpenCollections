@@ -10,7 +10,7 @@ using System.Threading;
 using System.Diagnostics;
 using System.Collections;
 
-namespace OpenCollections.Tests
+namespace OpenCollections.Test
 {
     public class ConcurrentConsumerTests
     {

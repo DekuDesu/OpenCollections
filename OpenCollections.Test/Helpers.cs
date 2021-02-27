@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenCollections.Tests
+namespace OpenCollections.Test
 {
     /// <summary>
     /// This is a version of ConcurrentQueue that allows to disable either adding or removing items, perfect for testing failures or delays in asynchronous methods

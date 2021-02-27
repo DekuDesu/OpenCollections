@@ -8,7 +8,7 @@ using OpenCollections;
 using System.Collections.Concurrent;
 using System.Threading;
 
-namespace OpenCollections.Tests
+namespace OpenCollections.Test
 {
     public class MultiConcurrentConsumerTests
     {

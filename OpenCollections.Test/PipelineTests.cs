@@ -9,7 +9,7 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Collections.Concurrent;
 
-namespace OpenCollections.Tests
+namespace OpenCollections.Test
 {
     public class PipelineTests
     {
