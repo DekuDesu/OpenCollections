@@ -4,12 +4,15 @@ using OpenCollections;
 
 // test 1: Finished Test: 108,341ms
 // test 2: Finished Test: 210,358ms
+// test 3: Finished Test:  90,182ms
 
 var producer = Factory.CreateProducer(Factory.CreateReader("Primes.txt"));
 
 var consumer = Factory.CreateConsumer<string, int>();
 
 consumer.InputFrom(producer);
+
+consumer.ObserveCollection(producer);
 
 int itemsConsumed = 0;
 
