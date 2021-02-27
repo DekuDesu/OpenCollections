@@ -68,7 +68,7 @@ namespace OpenCollections
         {
             var consumer = new ConcurrentConsumer<T, TResult>();
             consumer.InputFrom(ObjectToConsumeFrom);
-            consumer.ObserveCollection(ObjectToConsumeFrom);
+            consumer.ObserveCollection<T>(ObjectToConsumeFrom);
             return consumer;
         }
 
@@ -137,9 +137,6 @@ namespace OpenCollections
                 };
                 foreach (var item in ObjectsToConsumeFrom)
                 {
-                    multiConsumer.Started += item.Invoke;
-                    multiConsumer.Finished += item.Invoke;
-                    multiConsumer.CollectionChanged += item.Invoke;
                     collections.Add(item.ResultCollection);
                 }
                 return multiConsumer;
@@ -150,9 +147,6 @@ namespace OpenCollections
                 {
                     Collections = { ObjectsToConsumeFrom[0].ResultCollection },
                 };
-                multiConsumer.Started += ObjectsToConsumeFrom[0].Invoke;
-                multiConsumer.Finished += ObjectsToConsumeFrom[0].Invoke;
-                multiConsumer.CollectionChanged += ObjectsToConsumeFrom[0].Invoke;
                 return multiConsumer;
             }
 

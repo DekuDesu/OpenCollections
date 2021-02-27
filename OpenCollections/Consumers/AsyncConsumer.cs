@@ -10,7 +10,7 @@ using System.Net.Http;
 
 namespace OpenCollections
 {
-    public class AsyncConsumer<T, TResult> : IConcurrentInput<T>, IConcurrentOutput<TResult>, IDataModifierAsync<T, TResult>, IDisposable
+    public class AsyncConsumer<T, TResult> : IConcurrentInput<T>, IConcurrentOutput<TResult>, IDataModifierAsync<T, TResult>, IConcurrentInvokable<T>, IDisposable
     {
         public IProducerConsumerCollection<T> Collection { get; set; }
 
@@ -25,18 +25,17 @@ namespace OpenCollections
 
         public Func<T, Task<TResult>> AsyncOperation { get; set; }
 
-        public event Action Finished;
-        public event Action CollectionChanged;
-        public event Func<CancellationToken, Task> CollectionChangedAsync;
-        public event Action Started;
+        public event Action<object, CollectionEventArgs<TResult>> Finished;
+        public event Action<object, CollectionEventArgs<TResult>> CollectionChanged;
+        public event Action<object, CollectionEventArgs<TResult>> Started;
 
         private CancellationTokenSource TokenSource = new CancellationTokenSource();
 
         private CancellationToken ManagedToken;
 
-        public void Invoke() => Consume();
+        public void Invoke(object caller, CollectionEventArgs<T> e) => Consume();
 
-        public async Task InvokeAsync(CancellationToken token) => await BeginConsuming(token);
+        public async Task InvokeAsync(object caller, CollectionEventArgs<T> e) => await BeginConsuming(e.Token);
 
         public void Consume()
         {
@@ -52,11 +51,12 @@ namespace OpenCollections
             // make sure we have a valid token to determine how to cancel(if appropriate)
             token = SetManagedToken(token);
 
-            Started?.Invoke();
+            Started?.Invoke(this, new CollectionEventArgs<TResult> { Token = token, Item = default });
 
-            await Helpers.Consumer.ConsumeItemsAsync(Collection, ResultCollection, Buffer, AsyncOperation, CollectionChanged, token, CollectionChangedAsync, OperationCooldown).ConfigureAwait(false);
+            // todo
+            //await Helpers.Consumer.ConsumeItemsAsync(Collection, ResultCollection, Buffer, AsyncOperation, CollectionChanged, token OperationCooldown).ConfigureAwait(false);
 
-            Finished?.Invoke();
+            Finished?.Invoke(this, new CollectionEventArgs<TResult> { Token = token, Item = default });
         }
 
         private CancellationToken SetManagedToken(CancellationToken token = default)

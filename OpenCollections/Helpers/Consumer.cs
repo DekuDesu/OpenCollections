@@ -63,7 +63,7 @@ namespace OpenCollections.Helpers
         /// <param name="OutCollection"></param>
         /// <param name="BufferCollection"></param>
         /// <param name="Operation"></param>
-        internal static void ConsumeItems<T, TResult>(IProducerConsumerCollection<T> InCollection, IProducerConsumerCollection<TResult> OutCollection, IList<TResult> BufferCollection, in Func<T, TResult> Operation, in Action CollectionChanged, CancellationToken token, in Func<CancellationToken, Task> CollectionChangedAsync)
+        internal static void ConsumeItems<T, TResult>(object caller, IProducerConsumerCollection<T> InCollection, IProducerConsumerCollection<TResult> OutCollection, IList<TResult> BufferCollection, Func<T, TResult> Operation, Action<object, CollectionEventArgs<TResult>> CollectionChanged, CancellationToken token)
         {
             // attempt to consume items until there are no more items to consume
             while (InCollection.Count > 0)
@@ -74,10 +74,16 @@ namespace OpenCollections.Helpers
                 TryEmptyBuffer(BufferCollection, OutCollection);
 
                 // Attempt to consume the items from the collection
-                if (TryConsumeItem(InCollection, OutCollection, BufferCollection, Operation))
+                if (TryConsumeItem(InCollection, OutCollection, BufferCollection, Operation, out TResult item))
                 {
-                    CollectionChanged?.Invoke();
-                    CollectionChangedAsync?.Invoke(token);
+                    CollectionChanged?.Invoke(
+                        caller,
+                        new CollectionEventArgs<TResult>
+                        {
+                            Token = token,
+                            Item = item
+                        }
+                        );
                 }
             }
 
@@ -95,7 +101,7 @@ namespace OpenCollections.Helpers
         /// <param name="OutCollection"></param>
         /// <param name="Operation"></param>
         /// <returns></returns>
-        internal static bool TryConsumeItem<T, TResult>(IProducerConsumerCollection<T> InCollection, IProducerConsumerCollection<TResult> OutCollection, IList<TResult> BufferCollection, in Func<T, TResult> Operation)
+        internal static bool TryConsumeItem<T, TResult>(IProducerConsumerCollection<T> InCollection, IProducerConsumerCollection<TResult> OutCollection, IList<TResult> BufferCollection, in Func<T, TResult> Operation, out TResult Item)
         {
             //attempt to take an available item
             if (InCollection.TryTake(out T item))
@@ -107,10 +113,13 @@ namespace OpenCollections.Helpers
                 if (OutCollection.TryAdd(result) == false)
                 {
                     BufferCollection.Add(result);
+                    Item = result;
                     return false;
                 }
+                Item = default;
                 return true;
             }
+            Item = default;
             return false;
         }
 

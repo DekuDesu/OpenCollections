@@ -23,21 +23,19 @@ namespace OpenCollections
 
         private StreamWriter Writer;
 
-        public event Action Finished;
+        public event Action<object, CollectionEventArgs<T>> Finished;
 
-        public event Action CollectionChanged;
+        public event Action<object, CollectionEventArgs<T>> CollectionChanged;
 
-        public event Func<CancellationToken, Task> CollectionChangedAsync;
-
-        public event Action Started;
+        public event Action<object, CollectionEventArgs<T>> Started;
 
         public IProducerConsumerCollection<T> Collection { get; set; } = new ConcurrentQueue<T>();
 
-        public void Invoke() => WriteLines();
+        public void Invoke(object caller, CollectionEventArgs<T> e) => WriteLines();
 
-        public async Task InvokeAsync(CancellationToken token)
+        public async Task InvokeAsync(object caller, CollectionEventArgs<T> e)
         {
-            await WriteLinesAsync(token).ConfigureAwait(false);
+            await WriteLinesAsync(e.Token).ConfigureAwait(false);
         }
 
         public async Task WriteLinesAsync() => await BeginWriteLinesAsync(true, default).ConfigureAwait(false);
@@ -87,7 +85,7 @@ namespace OpenCollections
 
             using (Writer = File.CreateText(Path))
             {
-                Started?.Invoke();
+                Started?.Invoke(this, new CollectionEventArgs<T>() { Token = ManagedToken == default ? TokenSource.Token : ManagedToken, Item = default });
 
                 // this has two seperate while loops to avoid a boolean check of writeLines every loop
                 if (writeLines)
@@ -98,8 +96,12 @@ namespace OpenCollections
 
                         if (Collection.TryTake(out line))
                         {
-                            CollectionChanged?.Invoke();
-                            CollectionChangedAsync?.Invoke(ManagedToken == default ? TokenSource.Token : ManagedToken);
+                            CollectionChanged?.Invoke(this,
+                                new CollectionEventArgs<T>
+                                {
+                                    Token = ManagedToken == default ? TokenSource.Token : ManagedToken,
+                                    Item = line
+                                });
                             Writer.WriteLine(line);
                         }
                     }
@@ -112,15 +114,20 @@ namespace OpenCollections
 
                         if (Collection.TryTake(out line))
                         {
-                            CollectionChanged?.Invoke();
-                            CollectionChangedAsync?.Invoke(ManagedToken == default ? TokenSource.Token : ManagedToken);
+                            CollectionChanged?.Invoke(
+                                this,
+                                new CollectionEventArgs<T>
+                                {
+                                    Token = ManagedToken == default ? TokenSource.Token : ManagedToken,
+                                    Item = line
+                                });
                             Writer.Write(line);
                         }
                     }
                 }
             }
 
-            Finished?.Invoke();
+            Finished?.Invoke(this, new CollectionEventArgs<T>() { Token = ManagedToken == default ? TokenSource.Token : ManagedToken, Item = default });
         }
 
         private void CreateNewFile()

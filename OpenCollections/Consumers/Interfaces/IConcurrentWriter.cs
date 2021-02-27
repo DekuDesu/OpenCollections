@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OpenCollections
 {
-    public interface IConcurrentWriter<T> : IConcurrentInput<T>, IConcurrentEvent, IDisposable
+    public interface IConcurrentWriter<T> : IConcurrentInput<T>, IConcurrentEvent<T>, IConcurrentInvokable<T>, IDisposable
     {
         string Path { get; }
 
