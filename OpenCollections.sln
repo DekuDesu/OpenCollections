@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCollections", "OpenCollections.csproj", "{AD95EE3E-C710-4241-AF94-24B01F2906F1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCollections.UI", "..\OpenCollections.UI\OpenCollections.UI.csproj", "{9F84E165-638C-4E1E-93B3-DDC8127E0434}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCollections.Bench", "OpenCollections.Bench\OpenCollections.Bench.csproj", "{F5160F44-3D2E-4D22-91E6-27217909E7D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCollections.Test", "OpenCollections.Test\OpenCollections.Test.csproj", "{FEDD5625-3A76-4F77-A6E3-2A9BFA17DFB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCollections", "..\OpenCollections1\OpenCollections.csproj", "{B1153B5A-FC93-419A-BF4C-2B9712DCD9A2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCollections.Test", "..\..\..\Users\user\source\OpenCollections\OpenCollections.Test\OpenCollections.Test.csproj", "{691F81AF-7A7E-4137-BD44-0A4A0FFF1811}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,18 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AD95EE3E-C710-4241-AF94-24B01F2906F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AD95EE3E-C710-4241-AF94-24B01F2906F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AD95EE3E-C710-4241-AF94-24B01F2906F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AD95EE3E-C710-4241-AF94-24B01F2906F1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9F84E165-638C-4E1E-93B3-DDC8127E0434}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9F84E165-638C-4E1E-93B3-DDC8127E0434}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5160F44-3D2E-4D22-91E6-27217909E7D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5160F44-3D2E-4D22-91E6-27217909E7D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5160F44-3D2E-4D22-91E6-27217909E7D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FEDD5625-3A76-4F77-A6E3-2A9BFA17DFB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FEDD5625-3A76-4F77-A6E3-2A9BFA17DFB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FEDD5625-3A76-4F77-A6E3-2A9BFA17DFB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FEDD5625-3A76-4F77-A6E3-2A9BFA17DFB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5160F44-3D2E-4D22-91E6-27217909E7D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1153B5A-FC93-419A-BF4C-2B9712DCD9A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1153B5A-FC93-419A-BF4C-2B9712DCD9A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1153B5A-FC93-419A-BF4C-2B9712DCD9A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1153B5A-FC93-419A-BF4C-2B9712DCD9A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{691F81AF-7A7E-4137-BD44-0A4A0FFF1811}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{691F81AF-7A7E-4137-BD44-0A4A0FFF1811}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{691F81AF-7A7E-4137-BD44-0A4A0FFF1811}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{691F81AF-7A7E-4137-BD44-0A4A0FFF1811}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

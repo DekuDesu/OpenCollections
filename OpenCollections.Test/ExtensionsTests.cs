@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace OpenCollections.Tests
+namespace OpenCollections.Test
 {
     public class ExtensionsTests
     {

@@ -11,7 +11,7 @@ using Moq;
 using Autofac.Extras.Moq;
 using Autofac;
 
-namespace OpenCollections.Tests
+namespace OpenCollections.Test
 {
     public class ConcurrentWriterTests
     {

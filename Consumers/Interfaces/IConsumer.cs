@@ -13,14 +13,8 @@ namespace OpenCollections
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="TResult"></typeparam>
-    public interface IConsumer<T, TResult>
+    public interface IConsumer<T, TResult> : IDataModifier<T, TResult>
     {
-        /// <summary>
-        /// The <see cref="Func{T, TResult}"/> operation that should be performed on items that are consumed from <see cref="TCollection"/>
-        /// </summary>
-        Func<T, TResult> Operation { get; set; }
-
-
         /// <summary>
         /// Begins the consumtion of items from <see cref="Collection"/>, runs <see cref="Operation"/> on the item, and adds the <see cref="TResult"/> to <see cref="ResultCollection"/>
         /// </summary>
