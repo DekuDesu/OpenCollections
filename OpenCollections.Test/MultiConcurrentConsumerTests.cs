@@ -138,7 +138,7 @@ namespace OpenCollections.Test
         private void DoesntThrowWhenCancelAndNoManagedToken()
         {
             var multi = Factory.CreateMultiConsumer<int, int>();
-            multi.InvokeAsync(default);
+            multi.InvokeAsync(default, default);
             void ThrowsIfSuccess()
             {
                 multi.Cancel();

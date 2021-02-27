@@ -92,7 +92,7 @@ namespace OpenCollections.Test
         {
             string[] expected = CreateTestData();
             var multi = Factory.CreateProducer(expected);
-            multi.InvokeAsync(default);
+            multi.ProduceAsync();
             void ThrowsIfSuccess()
             {
                 multi.Cancel();

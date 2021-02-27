@@ -37,11 +37,11 @@ namespace OpenCollections.Test
 
                 using (var writer = Factory.CreateWriter(path, ints))
                 {
-                    writer.Started += () => { started = true; };
+                    writer.CollectionChanged += (x, y) => { collectionChanged = true; };
 
-                    writer.CollectionChanged += () => { collectionChanged = true; };
+                    writer.Started += (x, y) => { started = true; };
 
-                    writer.Finished += () => { finished = true; };
+                    writer.Finished += (x, y) => { finished = true; };
 
                     writer.Write();
                 }
@@ -62,11 +62,11 @@ namespace OpenCollections.Test
 
                 using (var writer = Factory.CreateWriter(path, ints))
                 {
-                    writer.Started += () => { started = true; };
+                    writer.Started += (x, y) => { started = true; };
 
-                    writer.CollectionChanged += () => { collectionChanged = true; };
+                    writer.CollectionChanged += (x, y) => { collectionChanged = true; };
 
-                    writer.Finished += () => { finished = true; };
+                    writer.Finished += (x, y) => { finished = true; };
 
                     writer.WriteLines();
                 }
@@ -376,7 +376,7 @@ namespace OpenCollections.Test
 
                 using (var writer = Factory.CreateWriter(path, NewQueue()))
                 {
-                    writer.Invoke();
+                    writer.WriteLines();
                 }
 
                 result = Helpers.VerifyCollection(expected, ReadFileLines(path));
@@ -385,7 +385,7 @@ namespace OpenCollections.Test
 
                 using (var writer = Factory.CreateWriter(path, NewQueue()))
                 {
-                    Task.WaitAll(writer.InvokeAsync(default));
+                    Task.WaitAll(writer.InvokeAsync(default, new CollectionEventArgs<string> { Token = TokenSource.Token }));
                 }
 
                 result = Helpers.VerifyCollection(expected, ReadFileLines(path));
