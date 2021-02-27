@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OpenCollections
 {
-    public interface IConcurrentMultiConsumer<T, TResult> : IConcurrentOutput<TResult>, IConsumer<T, TResult>, IConcurrentEvent
+    public interface IConcurrentMultiConsumer<T, TResult> : IConcurrentOutput<TResult>, IConsumer<T, TResult>, IConcurrentEvent<TResult>, IConcurrentInvokable<T>
     {
         /// <summary>
         /// The list that contains all of the collections that this consumes from

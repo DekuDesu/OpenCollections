@@ -43,7 +43,7 @@ namespace OpenCollections
             Input.Collections.Add(Output.ResultCollection);
         }
 
-        public static void StopObserving<T>(this IConcurrentInput<T> ObjectThatConsumesItems, IConcurrentOutput<T> ObjectThatProducesItems)
+        public static void StopObserving<T>(this IConcurrentInvokable<T> ObjectThatConsumesItems, IConcurrentOutput<T> ObjectThatProducesItems)
         {
             ObjectThatProducesItems.UnHookEvents(ObjectThatConsumesItems);
         }
@@ -54,49 +54,23 @@ namespace OpenCollections
         /// <typeparam name="T"></typeparam>
         /// <param name="ObjectThatConsumesItems"></param>
         /// <param name="ObjectThatProducesItems"></param>
-        public static void ObserveCollection<T>(this IConcurrentInput<T> ObjectThatConsumesItems, IConcurrentOutput<T> ObjectThatProducesItems)
+        public static void ObserveCollection<T>(this IConcurrentInvokable<T> ObjectThatConsumesItems, IConcurrentOutput<T> ObjectThatProducesItems)
         {
             ObjectThatProducesItems.HookEvents(ObjectThatConsumesItems);
         }
 
-        public static void StopObservingAsync<T>(this IConcurrentInput<T> ObjectThatConsumesItems, IConcurrentOutput<T> ObjectThatProducesItems)
-        {
-            ObjectThatProducesItems.UnHookEventsAsync(ObjectThatConsumesItems);
-        }
-
-        /// <summary>
-        /// Subcsribes <paramref name="ObjectThatConsumesItems"/> to <paramref name="ObjectThatProducesItems"/>, so that when <paramref name="ObjectThatProducesItems"/> produces items <paramref name="ObjectThatConsumesItems"/> begins consuming asynchronously
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="ObjectThatConsumesItems"></param>
-        /// <param name="ObjectThatProducesItems"></param>
-        public static void ObserveCollectionAsync<T>(this IConcurrentInput<T> ObjectThatConsumesItems, IConcurrentOutput<T> ObjectThatProducesItems)
-        {
-            ObjectThatProducesItems.HookEventsAsync(ObjectThatConsumesItems);
-        }
-
-        private static void HookEvents(this IConcurrentEvent host, IConcurrentEvent subscriber)
+        private static void HookEvents<T>(this IConcurrentEvent<T> host, IConcurrentInvokable<T> subscriber)
         {
             host.Finished += subscriber.Invoke;
             host.CollectionChanged += subscriber.Invoke;
             host.Started += subscriber.Invoke;
         }
 
-        private static void UnHookEvents(this IConcurrentEvent host, IConcurrentEvent subscriber)
+        private static void UnHookEvents<T>(this IConcurrentEvent<T> host, IConcurrentInvokable<T> subscriber)
         {
             host.Finished -= subscriber.Invoke;
             host.CollectionChanged -= subscriber.Invoke;
             host.Started -= subscriber.Invoke;
-        }
-
-        private static void HookEventsAsync(this IConcurrentEvent host, IConcurrentEvent subscriber)
-        {
-            host.CollectionChangedAsync += subscriber.InvokeAsync;
-        }
-
-        private static void UnHookEventsAsync(this IConcurrentEvent host, IConcurrentEvent subscriber)
-        {
-            host.CollectionChangedAsync -= subscriber.InvokeAsync;
         }
     }
 }

@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\_Programming\Repos\OpenCollections1\OpenCollections.csproj" />
+    <ProjectReference Include="..\..\..\..\..\_Programming\Repos\OpenCollections\OpenCollections\OpenCollections.csproj" />
   </ItemGroup>
 
 </Project>

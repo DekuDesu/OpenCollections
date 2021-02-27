@@ -8,11 +8,11 @@ using System.Collections.Concurrent;
 namespace OpenCollections
 {
     /// <summary>
-    /// Defines and OpenCollections object that accepts objects to consume them
+    /// Defines an OpenCollections object that outputs objects to a ResultCollection
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IConcurrentInput<T> : IConcurrentEvent
+    public interface IConcurrentOutput<T> : IConcurrentEvent<T>
     {
-        IProducerConsumerCollection<T> Collection { get; set; }
+        IProducerConsumerCollection<T> ResultCollection { get; set; }
     }
 }

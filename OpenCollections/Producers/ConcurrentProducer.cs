@@ -25,13 +25,12 @@ namespace OpenCollections
         /// </summary>
         public bool Producing { get; private set; }
 
-        public event Action Started;
+        public event Action<object, CollectionEventArgs<T>> Started;
 
-        public event Action CollectionChanged;
+        public event Action<object, CollectionEventArgs<T>> CollectionChanged;
 
-        public event Func<CancellationToken, Task> CollectionChangedAsync;
+        public event Action<object, CollectionEventArgs<T>> Finished;
 
-        public event Action Finished;
         /// <summary>
         /// The list where items are temporaily stored while they are waiting to be added to the <see cref="ResultCollection"/>
         /// </summary>
@@ -49,6 +48,14 @@ namespace OpenCollections
         {
             Enumerable = enumerableObject;
         }
+
+        public void Invoke(object caller, CollectionEventArgs<T> e) => Produce();
+
+        public async Task InvokeAsync(object caller, CollectionEventArgs<T> e)
+        {
+            await ProduceAsync(e.Token).ConfigureAwait(false);
+        }
+
 
         public void Produce() => ProduceItems();
 
@@ -73,7 +80,12 @@ namespace OpenCollections
                 return;
             }
 
-            Started?.Invoke();
+            Started?.Invoke(this,
+                new CollectionEventArgs<T>
+                {
+                    Token = token,
+                    Item = default
+                });
 
             // make sure we dispose of the object
             using (IEnumerator<T> enumerator = Enumerable.GetEnumerator())
@@ -88,24 +100,36 @@ namespace OpenCollections
 
                     Helpers.Consumer.TryEmptyBuffer(Buffer, ResultCollection, true);
 
-                    if (TryProduceItem(enumerator) == false)
+                    T item;
+
+                    if (TryProduceItem(enumerator, out item) == false)
                     {
                         break;
                     }
 
-                    CollectionChanged?.Invoke();
-                    CollectionChangedAsync?.Invoke(token);
+                    CollectionChanged?.Invoke(this,
+                        new CollectionEventArgs<T>
+                        {
+                            Token = token,
+                            Item = item
+                        }
+                        );
                 }
             }
 
             Helpers.Consumer.TryEmptyBuffer(Buffer, ResultCollection, false);
 
-            Finished?.Invoke();
+            Finished?.Invoke(this,
+                new CollectionEventArgs<T>
+                {
+                    Token = token,
+                    Item = default
+                });
 
             Producing = false;
         }
 
-        private bool TryProduceItem(IEnumerator<T> Enumerator)
+        private bool TryProduceItem(IEnumerator<T> Enumerator, out T Item)
         {
             T item = Enumerator.Current;
 
@@ -115,9 +139,11 @@ namespace OpenCollections
                 {
                     Buffer.Add(item);
                 }
+                Item = item;
                 return true;
             }
 
+            Item = default;
             return false;
         }
 
@@ -153,12 +179,6 @@ namespace OpenCollections
             ((IDisposable)TokenSource)?.Dispose();
         }
 
-        public void Invoke() => Produce();
-
-        public async Task InvokeAsync(CancellationToken token)
-        {
-            await ProduceAsync(token).ConfigureAwait(false);
-        }
 
         ~ConcurrentProducer()
         {

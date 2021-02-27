@@ -29,23 +29,21 @@ namespace OpenCollections
 
         internal List<TResult> Buffer = new List<TResult>();
 
-        public event Action Finished;
+        public event Action<object, CollectionEventArgs<TResult>> Finished;
 
-        public event Action CollectionChanged;
+        public event Action<object, CollectionEventArgs<TResult>> CollectionChanged;
 
-        public event Func<CancellationToken, Task> CollectionChangedAsync;
-
-        public event Action Started;
+        public event Action<object, CollectionEventArgs<TResult>> Started;
 
         private CancellationTokenSource TokenSource = new CancellationTokenSource();
 
         private CancellationToken ManagedToken;
 
-        public void Invoke() => Consume();
+        public void Invoke(object caller, CollectionEventArgs<T> e) => Consume();
 
-        public async Task InvokeAsync(CancellationToken token)
+        public async Task InvokeAsync(object caller, CollectionEventArgs<T> e)
         {
-            await ConsumeAsync(token).ConfigureAwait(false);
+            await ConsumeAsync(e.Token).ConfigureAwait(false);
         }
 
         public void Consume()
@@ -62,21 +60,35 @@ namespace OpenCollections
 
             Consuming = true;
 
-            Started?.Invoke();
+            Started?.Invoke(
+                this,
+                new CollectionEventArgs<TResult>
+                {
+                    Token = ManagedToken == default ? TokenSource.Token : ManagedToken,
+                    Item = default
+                }
+            );
 
             Helpers.Consumer.ConsumeItems(
+                    caller: this,
                     InCollection: Collection,
                     OutCollection: ResultCollection,
                     BufferCollection: Buffer,
                     Operation: Operation,
                     CollectionChanged: CollectionChanged,
-                    token: ManagedToken == default ? TokenSource.Token : ManagedToken,
-                    CollectionChangedAsync: CollectionChangedAsync
+                    token: ManagedToken == default ? TokenSource.Token : ManagedToken
                 );
 
             Consuming = false;
 
-            Finished?.Invoke();
+            Finished?.Invoke(
+                this,
+                new CollectionEventArgs<TResult>
+                {
+                    Token = ManagedToken == default ? TokenSource.Token : ManagedToken,
+                    Item = default
+                }
+            );
         }
 
         public async Task ConsumeAsync()
