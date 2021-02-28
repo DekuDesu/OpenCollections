@@ -58,22 +58,6 @@ namespace OpenCollections.Test
         }
 
         [Fact]
-        public void ThrowsWhenNoOperationProvided()
-        {
-            var input = CreateTestBag();
-
-            int[] expected = input.ToArray();
-
-            var consumer = new ConcurrentConsumer<int, int>()
-            {
-                Collection = input,
-                ResultCollection = new ConcurrentQueue<int>(),
-            };
-
-            Assert.Throws<NotImplementedException>(() => consumer.Consume());
-        }
-
-        [Fact]
         public void ThrowsWhenCollectionEmpty()
         {
             var consumer = Factory.CreateConsumer<int, string>();

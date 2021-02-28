@@ -13,6 +13,9 @@ namespace OpenCollections
     /// <typeparam name="T"></typeparam>
     public interface IConcurrentOutput<T> : IConcurrentEvent<T>
     {
+        /// <summary>
+        /// The <see cref="IProducerConsumerCollection{T}"/> that this object uses to output items to.
+        /// </summary>
         IProducerConsumerCollection<T> ResultCollection { get; set; }
     }
 }

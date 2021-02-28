@@ -98,6 +98,7 @@ namespace OpenCollections.Test
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => Data.GetEnumerator();
     }
+
     public static class Helpers
     {
         public static void Add<T>(this ConcurrentQueue<T> queue, T item)
@@ -108,6 +109,13 @@ namespace OpenCollections.Test
         public static void Add<T>(this IProducerConsumerCollection<T> collection, T item)
         {
             collection.TryAdd(item);
+        }
+
+        public static void LogEventsToConsole<T>(this IConcurrentEvent<T> objectWithEvents, string id = "")
+        {
+            objectWithEvents.CollectionChanged += (x, y) => Console.WriteLine($"({id}) Changed");
+            objectWithEvents.Started += (x, y) => Console.WriteLine($"({id}) Started");
+            objectWithEvents.Finished += (x, y) => Console.WriteLine($"({id}) Finished");
         }
 
         public static (bool result, string message) VerifyCollection<T>(IEnumerable<T> expected, IEnumerable<T> actual) where T : IEquatable<T>
@@ -152,18 +160,6 @@ namespace OpenCollections.Test
                 }
             }
             return value;
-        }
-        public static (bool result, string message) VerifyAllValuesPresent<T>(IEnumerable<T> expectedValues, IEnumerable<IEnumerable<T>> collectionOfActualValues)
-        {
-            foreach (var item in collectionOfActualValues)
-            {
-                var result = VerifyAllValuesPresent(expectedValues, item);
-                if (result.result == false)
-                {
-                    return result;
-                }
-            }
-            return (result: true, message: null);
         }
     }
 }

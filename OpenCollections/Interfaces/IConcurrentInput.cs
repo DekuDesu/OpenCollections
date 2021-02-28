@@ -13,6 +13,9 @@ namespace OpenCollections
     /// <typeparam name="T"></typeparam>
     public interface IConcurrentInput<T>
     {
+        /// <summary>
+        /// The <see cref="IProducerConsumerCollection{T}"/> collection this object uses as an Input to consume items from.
+        /// </summary>
         IProducerConsumerCollection<T> Collection { get; set; }
     }
 }

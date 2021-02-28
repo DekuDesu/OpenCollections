@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using OpenCollections;
+using static OpenCollections.Test.Helpers;
 
 // test 1: Finished Test: 108,341ms
 // test 2: Finished Test: 210,358ms
@@ -30,13 +31,9 @@ consumer.Operation = x =>
     return int.Parse(x);
 };
 
-producer.Started += (x, y) => Log("Producer Started");
-producer.CollectionChanged += (x, y) => Log("Producer Collection Changed");
-producer.Finished += (x, y) => Log("Producer Finished");
+producer.LogEventsToConsole("Producer");
 
-consumer.Started += (x, y) => Log("Consumer Started");
-consumer.CollectionChanged += (x, y) => Log("Consumer Collection Changed");
-consumer.Finished += (x, y) => Log("Consumer Finished");
+consumer.LogEventsToConsole("Consumer");
 
 Console.WriteLine("Starting Producing");
 watch.Start();
@@ -44,8 +41,3 @@ producer.ProduceAsync();
 Console.WriteLine("Ended Producing");
 
 Console.Read();
-
-void Log(string message)
-{
-    Console.WriteLine(message);
-}
