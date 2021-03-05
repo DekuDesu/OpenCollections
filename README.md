@@ -6,7 +6,6 @@
 <p align="center">  
 <a href="https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=DekuDesu/OpenCollections&amp;utm_campaign=Badge_Grade)"><img src="https://app.codacy.com/project/badge/Grade/55eb3a074c52477ead4d70b6ae157718"></a>
 <a href="https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=DekuDesu/OpenCollections&amp;utm_campaign=Badge_Grade">
-<a href="https://travis-ci.com/DekuDesu/OpenCollections"><img src="https://travis-ci.com/DekuDesu/OpenCollections.svg?branch=master"></a>
  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
  <a href="https://dev.azure.com/OpenPipelines/OpenCollections/_build/latest?definitionId=1&branchName=master"><img src="https://dev.azure.com/OpenPipelines/OpenCollections/_apis/build/status/DekuDesu.OpenCollections?branchName=master"></a>
 </p>
